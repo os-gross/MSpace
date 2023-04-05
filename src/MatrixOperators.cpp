@@ -2,10 +2,20 @@
 #define M_OPERATORS_CPP
 
 #include "Matrix.hpp"
+//equals
+template<typename T, typename U>
+bool Matrix<T, U>::operator== (const Matrix<T> &another) const{
+    return M == another.getMatrix();
+};
+//not equals
+template<typename T, typename U>
+bool Matrix<T, U>::operator!= (const Matrix<T> &another) const{
+    return M != another.getMatrix();
+};
 //assignment
 template<typename T, typename U>
 Matrix<T>& Matrix<T, U>::operator= (const Matrix<T> &another){
-    if(another != this){
+    if(another != *this){
         numCols = another.numCols;
         numRows = another.numRows;
         M = another.getMatrix();
@@ -62,14 +72,13 @@ std::vector<T> Matrix<T, U>::operator[](const int &n) const{
 
 
 template<typename T, typename U>
-T Matrix<T, U>::operator()(const int &i, const int &j) const{
+T& Matrix<T, U>::operator()(const int &i, const int &j){
     if(i < 0 || i >= numCols || j < 0 || j >= numRows){
          throw std::out_of_range("The value is out of range.");
-         return 0;
     }
     return M[i][j];
-
 };
+
 //addtion of two matrices
 template<typename T, typename U>
 Matrix<T> Matrix<T, U>::operator+ (const Matrix<T> &another) const{
@@ -105,16 +114,4 @@ Matrix<T> Matrix<T, U>::operator* (const Matrix<T> &another) const{
     }
     return std::move(res);
 };
-
-template<typename T, typename U>
-bool Matrix<T, U>::operator== (const Matrix<T> &another) const{
-    return M == another.getMatrix();
-};
-
-template<typename T, typename U>
-bool Matrix<T, U>::operator!= (const Matrix<T> &another) const{
-    return M != another.getMatrix();
-};
-
-
 #endif

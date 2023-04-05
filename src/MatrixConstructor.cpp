@@ -6,15 +6,8 @@
 #include <stdexcept>
 
 template<typename T, typename U>
-Matrix<T,U>::Matrix(){
-    numCols = 0;
-    numRows = 0;
-    M = 0;
-}
-
-template<typename T, typename U>
-Matrix<T,U>::Matrix(const size_t num){
-    if(num < 0){
+Matrix<T,U>::Matrix(const int num){
+    if(num <= 0){
         throw std::out_of_range("Constuctor. The value is out of range.");
     }
     numCols = num;
@@ -24,11 +17,10 @@ Matrix<T,U>::Matrix(const size_t num){
 }
 
 template<typename T, typename U>
-Matrix<T,U>::Matrix(const size_t newNumCols,const size_t newNumRows){
-    if(newNumCols < 0 || newNumRows < 0){
+Matrix<T,U>::Matrix(const int newNumCols,const int newNumRows){
+    if(newNumCols <= 0 || newNumRows <= 0){
         throw std::out_of_range("Constructor. The value is out of range.");
     }
-
     numCols = newNumCols;
     numRows = newNumRows;
     M = std::vector<std::vector<T>>(numCols, std::vector<T>(numRows, 0));
@@ -40,26 +32,36 @@ Matrix<T,U>::Matrix(const size_t newNumCols,const size_t newNumRows){
 }
 
 template<typename T, typename U>
-Matrix<T, U>::Matrix(const std::vector<std::vector<T>> &v){
-    numCols = v.size();
-    numRows = v[0].size();
-    M = v;
+template<typename V>
+Matrix<T, U>::Matrix(const std::vector<std::vector<V>> &v){
+    numCols = v[0].size();
+    numRows = v.size();
+    
+    for(size_t i = 0; i < numRows; i++){
+        std::vector<T> temp;
+        for(size_t j = 0; j < numCols; j++){
+            temp.push_back(static_cast<T>(v[i][j]));
+        }
+        M.push_back(temp);
+    }
 }
 
-
 template<typename T, typename U>
-Matrix<T, U>::Matrix(const Matrix<T> &another){
+template<typename V>
+Matrix<T, U>::Matrix(const Matrix<V> &another){
     numCols = another.getNumCols();
     numRows = another.getNumRows();
-    M = another.getMatrix();
+    for(size_t i = 0; i < numCols; i++){
+        std::vector<T> temp;    
+        for(size_t j = 0; j < numRows; j++){
+            temp.push_back(static_cast<T>(another[i][j]));
+        }
+        M.push_back(temp);
+    }
 }
-
-
-
+//Destructor
 template<typename T, typename U>
 Matrix<T, U>::~Matrix(){
-    //initially emptys
+    //initially empty
 };
-
-
 #endif
