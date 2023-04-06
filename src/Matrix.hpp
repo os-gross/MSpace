@@ -11,8 +11,8 @@ private:
         size_t numRows;
         std::vector<std::vector<T>> M;    
 public:
-    Matrix(const int num);
-    Matrix(const int newNumCols, const int newNumRows);
+    Matrix(const int &num);
+    Matrix(const int &newNumCols, const int &newNumRows);
     template<typename V>
     Matrix(const std::vector<std::vector<V>> &v);
     template<typename V>
@@ -26,23 +26,8 @@ public:
     std::vector<T> getColumn(const int &index)const;
     std::vector<T> getRow(const int &index)const;
     Matrix<T> getSubMatrix(const int &i1, const int &j1, const int &i2, const int &j2)const;
-
-    void set(const int i, const int j, const T newValue);
-    /// TODO:
-    void deleteColumn() const;
-    void deleteRow() const;
-
-    void print(const std::string &caption = "") const{
-        std::cout<<"--------------"<<std::endl;
-        std::cout<<caption<<std::endl;
-        for(size_t i = 0; i < numCols; i++){
-            for(size_t j = 0; j< numRows; j++){
-                std::cout<<M[i][j]<<" ";
-            }
-            std::cout<<std::endl;
-        }
-    }
-
+    //Setters
+    void set(const int &i, const int &j, const T &newValue);
     //Operators
     bool operator== (const Matrix<T> &another) const;//equals
     bool operator!= (const Matrix<T> &another) const;//not equals
@@ -57,11 +42,22 @@ public:
     Matrix<T> operator- (const Matrix<T> &another) const;//substraction
     Matrix<T> operator* (const Matrix<T> &another) const;//multiplication
 
+    /// TODO:
+    void deleteColumn() const;
+    void deleteRow() const;
 
+    void print(const std::string &caption = "") const{
+        std::cout<<"--------------"<<std::endl;
+        std::cout<<caption<<std::endl;
+        for(size_t i = 0; i < numCols; i++){
+            for(size_t j = 0; j< numRows; j++){
+                std::cout<<M[i][j]<<" ";
+            }
+            std::cout<<std::endl;
+        }
+    }
 };
 
-#include "MatrixConstructor.cpp"
+#include "MatrixAccessors.cpp"
 #include "MatrixOperators.cpp"
-#include "MatrixGetters.cpp"
-#include "MatrixSetters.cpp"
 

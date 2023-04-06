@@ -5,9 +5,7 @@ project(MSpace)
 
 # Add the matrix library target
 add_library(matrix
-    src/MatrixConstructor.cpp
-    src/MatrixGetters.cpp
-    src/MatrixSetters.cpp
+    src/MatrixAccessors.cpp
     src/MSpace.hpp
 )
 
