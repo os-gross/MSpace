@@ -18,8 +18,8 @@ TEST(Matrix, MatrixConstructorTest) {
     Matrix<double> same_type_copied_matrix(regular_matrix);
     Matrix<int> double_to_int_copied_matrix(regular_matrix);
     );
-    EXPECT_THROW(Matrix<int> throw_matrix(-5), std::out_of_range);
-    EXPECT_THROW(Matrix<int> throw_matrix(-5, -10), std::out_of_range);
+    EXPECT_THROW(Matrix<int> throw_matrix(-5), MatrixNegativeSize);
+    EXPECT_THROW(Matrix<int> throw_matrix(-5, -10), MatrixNegativeSize);
   };
 
 TEST(Matrix, MatrixGettersTest) {
@@ -42,8 +42,9 @@ TEST(Matrix, MatrixGettersTest) {
   EXPECT_EQ(matrix.getRow(1), v_row_2);
   EXPECT_EQ(matrix.getSubMatrix(1, 0, 2, 1), sub_matrix);
   EXPECT_EQ(matrix.getSubMatrix(2, 1, 1, 0), sub_matrix);
-  EXPECT_THROW(matrix.getSubMatrix(1, 0, -2, 1), std::out_of_range);
-  EXPECT_THROW(matrix.getSubMatrix(200, 0, 2, 1), std::out_of_range);
+  EXPECT_THROW(matrix.getSubMatrix(1, 0, -2, 1), ColumnIndexOutOfRange);
+  EXPECT_THROW(matrix.getSubMatrix(1, 0, 2, -1), RowIndexOutOfRange);
+  EXPECT_THROW(matrix.getSubMatrix(200, 0, 2, 1), ColumnIndexOutOfRange);
 }
 
 TEST(Matrix, MatrixSettersTest){
@@ -94,10 +95,10 @@ TEST(Matrix, MatrixOperatorsTest){
 
     EXPECT_EQ(matrix[0], v[0]);// index acess
     EXPECT_EQ(matrix(0, 0), v[0][0]);// double index access
-    EXPECT_THROW(matrix[-10], std::out_of_range);
-    EXPECT_THROW(matrix(-1, -1), std::out_of_range);
-    EXPECT_THROW(matrix(1, -1), std::out_of_range);
-    EXPECT_THROW(matrix(-1, 1), std::out_of_range);
+    EXPECT_THROW(matrix[-10], RowIndexOutOfRange);
+    EXPECT_THROW(matrix(-1, -1), ColumnIndexOutOfRange);
+    EXPECT_THROW(matrix(1, -1), RowIndexOutOfRange);
+    EXPECT_THROW(matrix(-1, 1), ColumnIndexOutOfRange);
 
     std::vector<std::vector<double>> v1 = {{1,2,3}, {4,5,6}, {7,8,9}};
     std::vector<std::vector<double>> v2 = {{1,0,2}, {0,3,0}, {4,0,5}};

@@ -5,7 +5,9 @@ project(MSpace)
 
 # Add the matrix library target
 add_library(matrix
+    src/MatrixExceptions.cpp
     src/MatrixAccessors.cpp
+    src/Matrix.cpp
     src/MSpace.hpp
 )
 

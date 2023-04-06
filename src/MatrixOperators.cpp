@@ -66,25 +66,24 @@ Matrix<T> Matrix<T, U>::operator-()const{
 // index operator
 template<typename T, typename U>
 std::vector<T> Matrix<T, U>::operator[](const int &n) const{
-    if( n < 0 || n >= numCols) throw std::out_of_range("[]. The value is out of range.");
+    if( n < 0 || n >= numRows) throw RowIndexOutOfRange();
     return M[n];
 };
 
 
 template<typename T, typename U>
 T& Matrix<T, U>::operator()(const int &i, const int &j){
-    if(i < 0 || i >= numCols || j < 0 || j >= numRows){
-         throw std::out_of_range("The value is out of range.");
-    }
+    if(i < 0 || i >= numCols) throw ColumnIndexOutOfRange();
+    if(j < 0 || j >= numRows) throw RowIndexOutOfRange();
     return M[i][j];
 };
 
 //addtion of two matrices
 template<typename T, typename U>
 Matrix<T> Matrix<T, U>::operator+ (const Matrix<T> &another) const{
-    if(numCols != another.getNumCols()) throw std::out_of_range("-----");
-    if(numRows != another.getNumRows()) throw std::out_of_range("-----");
-
+    if(numCols != another.getNumCols() || numRows != another.getNumRows()){
+        throw MatrixSizeMismatchException();
+    }
     Matrix<T> res(numCols, numRows);
     for(size_t i = 0; i < numCols; i++){
         for(size_t j =0; j< numRows; j++){
@@ -101,7 +100,7 @@ Matrix<T> Matrix<T, U>::operator- (const Matrix<T> &another) const{
 //multiplication of two matrices
 template<typename T, typename U>
 Matrix<T> Matrix<T, U>::operator* (const Matrix<T> &another) const{
-    if(numRows != another.getNumCols()) throw std::out_of_range("-----");
+    if(numRows != another.getNumCols()) throw MatrixSizeMismatchException();
     Matrix<T> res(numCols, another.getNumRows()); 
 
     for(size_t i = 0; i < numCols; i++){

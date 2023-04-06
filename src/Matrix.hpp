@@ -1,8 +1,9 @@
-#pragma once
+#ifndef MATRIX_HPP
+#define MATRIX_HPP
 
 #include <vector>
 #include <iostream>
-#include <stdexcept>
+#include "MatrixExceptions.cpp"
 
 template <typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>, bool>>
 class Matrix {
@@ -43,8 +44,8 @@ public:
     Matrix<T> operator* (const Matrix<T> &another) const;//multiplication
 
     /// TODO:
-    void deleteColumn() const;
-    void deleteRow() const;
+    void removeColumn(const int &index);
+    void removeRow(const int &index);
 
     void print(const std::string &caption = "") const{
         std::cout<<"--------------"<<std::endl;
@@ -60,4 +61,4 @@ public:
 
 #include "MatrixAccessors.cpp"
 #include "MatrixOperators.cpp"
-
+#endif

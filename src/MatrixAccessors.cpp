@@ -2,13 +2,10 @@
 #define M_ACCESSORS_CPP
 
 #include "Matrix.hpp"
-
-#include <stdexcept>
-
 template<typename T, typename U>
 Matrix<T,U>::Matrix(const int &num){
     if(num <= 0){
-        throw std::out_of_range("Constuctor. The value is out of range.");
+        throw MatrixNegativeSize();
     }
     numCols = num;
     numRows = num;
@@ -19,7 +16,7 @@ Matrix<T,U>::Matrix(const int &num){
 template<typename T, typename U>
 Matrix<T,U>::Matrix(const int &newNumCols,const int &newNumRows){
     if(newNumCols <= 0 || newNumRows <= 0){
-        throw std::out_of_range("Constructor. The value is out of range.");
+        throw MatrixNegativeSize();
     }
     numCols = newNumCols;
     numRows = newNumRows;
@@ -80,9 +77,8 @@ size_t Matrix<T, U>::getNumRows() const {
 
 template <typename T, typename U>
 T Matrix<T, U>::get(int i, int j) const {
-    if(i < 0 || j < 0 || i >= numCols || j >= numRows){
-        throw std::out_of_range("The value is out of range.");
-    }
+    if(i < 0 || i >= numCols) throw ColumnIndexOutOfRange();
+    if(j < 0 || j >= numRows) throw RowIndexOutOfRange();
     return M[i][j];
 }
 
@@ -94,7 +90,7 @@ std::vector<std::vector<T>> Matrix<T, U>::getMatrix() const{
 template<typename T, typename U>
 std::vector<T> Matrix<T,U>::getColumn(const int &index)const{
     if(index < 0 || index >= numCols){
-        throw std::out_of_range("The value is out of range.");
+        throw ColumnIndexOutOfRange();
     }
     std::vector<T> res;
     for(size_t i = 0; i < numRows; i++){
@@ -106,17 +102,17 @@ std::vector<T> Matrix<T,U>::getColumn(const int &index)const{
 template<typename T, typename U>
 std::vector<T> Matrix<T,U>::getRow(const int &index)const{
     if(index < 0 || index >= numRows){
-        throw std::out_of_range("The value is out of range.");
+        throw RowIndexOutOfRange();    
     }
     return M[index];
 }
 
 template<typename T, typename U> 
 Matrix<T> Matrix<T,U>::getSubMatrix(const int &i1, const int &j1,const int &i2, const int &j2 )const{
-    if(i1 < 0 || i1 >= numCols) throw std::out_of_range("The value is out of range.");
-    if(j1 < 0 || j1 >= numRows) throw std::out_of_range("The value is out of range.");
-    if(i2 < 0 || i2 >= numCols) throw std::out_of_range("The value is out of range.");
-    if(j2 < 0 || j2 >= numRows) throw std::out_of_range("The value is out of range.");
+    if(i1 < 0 || i1 >= numCols) throw ColumnIndexOutOfRange();
+    if(j1 < 0 || j1 >= numRows) throw RowIndexOutOfRange();
+    if(i2 < 0 || i2 >= numCols)  throw ColumnIndexOutOfRange();
+    if(j2 < 0 || j2 >= numRows) throw RowIndexOutOfRange();
     const int min_i = std::min(i1, i2);
     const int min_j = std::min(j1, j2);
     const int max_i = std::max(i1, i2);
@@ -134,9 +130,8 @@ Matrix<T> Matrix<T,U>::getSubMatrix(const int &i1, const int &j1,const int &i2, 
 // Setters
 template<typename T, typename U>
 void Matrix<T, U>::set(const int &i, const int &j, const T &newValue){
-    if(i < 0 || j < 0 || i >= numCols || j >= numRows){
-        throw std::out_of_range("Set. The value is out of range.");
-    }
+    if(i < 0 || i >= numCols) throw ColumnIndexOutOfRange();
+    if(j < 0 || j >= numRows) throw RowIndexOutOfRange();
     M[i][j] = newValue;    
 }
 #endif
