@@ -27,5 +27,20 @@ public:
         return "The sizes of the matrices do not match. Impossible to perform operation on matrices with different sizes.";
     }
 };
+class MatrixDevisionZero : public std::exception {
+public:
+    const char* what() const noexcept override {
+        return "Division by zero. It is impossible to divide the matrix by zero.";
+    }
+};
+class MatrixNegativeValue : public std::exception {
+public:
+    const char* what() const noexcept override {
+        return "The provided value is negative. It is impossible to perform the action.";
+    }
+};
+
+
+
 
 #endif

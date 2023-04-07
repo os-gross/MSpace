@@ -1,19 +1,16 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.0)
 
 # Set project name and version
-project(MSpace)
+project(MSpace LANGUAGES CXX)
 
 # Add the matrix library target
-add_library(matrix
-    src/MatrixExceptions.cpp
-    src/MatrixAccessors.cpp
-    src/Matrix.cpp
+add_library(matrix SHARED
     src/MSpace.hpp
 )
 
 # Add the test executable target
 add_executable(test
-  test/matrix_test.cpp
+  test/test.cpp
 )
 
 find_package(GTest REQUIRED)
@@ -28,6 +25,7 @@ target_link_libraries(test
 # Set the output directory for the binaries
 set_target_properties(matrix test
     PROPERTIES
+        LINKER_LANGUAGE CXX
         CXX_STANDARD 17
         RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/bin"
         ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/bin"

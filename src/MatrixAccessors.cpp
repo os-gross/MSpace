@@ -2,6 +2,7 @@
 #define M_ACCESSORS_CPP
 
 #include "Matrix.hpp"
+
 template<typename T, typename U>
 Matrix<T,U>::Matrix(const int &num){
     if(num <= 0){
@@ -9,30 +10,24 @@ Matrix<T,U>::Matrix(const int &num){
     }
     numCols = num;
     numRows = num;
-    M = std::vector<std::vector<T>>(numCols, std::vector<T>(numRows, 0));
-    for(size_t i = 0; i < numCols; i++) M[i][i] = 1;
+    M = std::vector<std::vector<T>>(numRows, std::vector<T>(numCols, 0));
 }
 
 template<typename T, typename U>
-Matrix<T,U>::Matrix(const int &newNumCols,const int &newNumRows){
+Matrix<T,U>::Matrix(const int &newNumRows,const int &newNumCols){
     if(newNumCols <= 0 || newNumRows <= 0){
         throw MatrixNegativeSize();
     }
-    numCols = newNumCols;
     numRows = newNumRows;
-    M = std::vector<std::vector<T>>(numCols, std::vector<T>(numRows, 0));
-    for(size_t i = 0; i < numCols; i++){
-        for(size_t j = 0; j < numRows; j++){
-           if(i == j) M[i][j] = 1;
-        }
-    }
+    numCols = newNumCols;
+    M = std::vector<std::vector<T>>(numRows, std::vector<T>(numCols, 0));
 }
 
 template<typename T, typename U>
 template<typename V>
 Matrix<T, U>::Matrix(const std::vector<std::vector<V>> &v){
-    numCols = v[0].size();
     numRows = v.size();
+    numCols = v[0].size();
     M.reserve(numCols);
     for(size_t i = 0; i < numRows; i++){
         std::vector<T> temp;
@@ -46,19 +41,20 @@ Matrix<T, U>::Matrix(const std::vector<std::vector<V>> &v){
 
 template<typename T, typename U>
 template<typename V>
-Matrix<T, U>::Matrix(const Matrix<V> &another){
-    numCols = another.getNumCols();
+Matrix<T, U>::Matrix(const Matrix<V> &another) {
     numRows = another.getNumRows();
-    M.reserve(numCols);
-    for(size_t i = 0; i < numCols; i++){
-        std::vector<T> temp;    
-        temp.reserve(numRows);
-        for(size_t j = 0; j < numRows; j++){
+    numCols = another.getNumCols();
+    M.reserve(numRows);
+    for (size_t i = 0; i < numRows; i++) {
+        std::vector<T> temp;
+        temp.reserve(numCols);
+        for (size_t j = 0; j < numCols; j++) {
             temp.push_back(static_cast<T>(another[i][j]));
         }
         M.push_back(temp);
     }
 }
+
 //Destructor
 template<typename T, typename U>
 Matrix<T, U>::~Matrix(){
@@ -66,19 +62,19 @@ Matrix<T, U>::~Matrix(){
 };
 // Getters
 template <typename T, typename U>
-size_t Matrix<T, U>::getNumCols() const {
-    return numCols;
-}
-
-template <typename T, typename U>
 size_t Matrix<T, U>::getNumRows() const {
     return numRows;
 }
 
 template <typename T, typename U>
+size_t Matrix<T, U>::getNumCols() const {
+    return numCols;
+}
+
+template <typename T, typename U>
 T Matrix<T, U>::get(int i, int j) const {
-    if(i < 0 || i >= numCols) throw ColumnIndexOutOfRange();
-    if(j < 0 || j >= numRows) throw RowIndexOutOfRange();
+    if(i < 0 || i >= numRows) throw RowIndexOutOfRange();
+    if(j < 0 || j >= numCols) throw ColumnIndexOutOfRange();
     return M[i][j];
 }
 
@@ -86,7 +82,13 @@ template <typename T, typename U>
 std::vector<std::vector<T>> Matrix<T, U>::getMatrix() const{
     return M;
 }
-
+template<typename T, typename U>
+std::vector<T> Matrix<T,U>::getRow(const int &index)const{
+    if(index < 0 || index >= numRows){
+        throw RowIndexOutOfRange();    
+    }
+    return M[index];
+}
 template<typename T, typename U>
 std::vector<T> Matrix<T,U>::getColumn(const int &index)const{
     if(index < 0 || index >= numCols){
@@ -99,20 +101,12 @@ std::vector<T> Matrix<T,U>::getColumn(const int &index)const{
     return std::move(res);
 }
 
-template<typename T, typename U>
-std::vector<T> Matrix<T,U>::getRow(const int &index)const{
-    if(index < 0 || index >= numRows){
-        throw RowIndexOutOfRange();    
-    }
-    return M[index];
-}
-
 template<typename T, typename U> 
 Matrix<T> Matrix<T,U>::getSubMatrix(const int &i1, const int &j1,const int &i2, const int &j2 )const{
-    if(i1 < 0 || i1 >= numCols) throw ColumnIndexOutOfRange();
-    if(j1 < 0 || j1 >= numRows) throw RowIndexOutOfRange();
-    if(i2 < 0 || i2 >= numCols)  throw ColumnIndexOutOfRange();
-    if(j2 < 0 || j2 >= numRows) throw RowIndexOutOfRange();
+    if(i1 < 0 || i1 >= numRows) throw RowIndexOutOfRange();
+    if(j1 < 0 || j1 >= numCols) throw ColumnIndexOutOfRange();
+    if(i2 < 0 || i2 >= numRows)  throw RowIndexOutOfRange();
+    if(j2 < 0 || j2 >= numCols) throw ColumnIndexOutOfRange();
     const int min_i = std::min(i1, i2);
     const int min_j = std::min(j1, j2);
     const int max_i = std::max(i1, i2);
@@ -124,14 +118,14 @@ Matrix<T> Matrix<T,U>::getSubMatrix(const int &i1, const int &j1,const int &i2, 
             res(i - min_i, j - min_j) = M[i][j];
         }
     };
-    return std::move(res);
+    return res;
 }
 
 // Setters
 template<typename T, typename U>
 void Matrix<T, U>::set(const int &i, const int &j, const T &newValue){
-    if(i < 0 || i >= numCols) throw ColumnIndexOutOfRange();
-    if(j < 0 || j >= numRows) throw RowIndexOutOfRange();
+    if(i < 0 || i >= numRows) throw RowIndexOutOfRange();
+    if(j < 0 || j >= numCols) throw ColumnIndexOutOfRange();
     M[i][j] = newValue;    
 }
 #endif

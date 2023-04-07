@@ -8,20 +8,20 @@
 template <typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>, bool>>
 class Matrix {
 private:
-        size_t numCols;
         size_t numRows;
-        std::vector<std::vector<T>> M;    
+        size_t numCols;
+        std::vector<std::vector<T>> M;
 public:
     Matrix(const int &num);
-    Matrix(const int &newNumCols, const int &newNumRows);
+    Matrix(const int &newNumRows, const int &newNumCols);
     template<typename V>
     Matrix(const std::vector<std::vector<V>> &v);
     template<typename V>
     Matrix(const Matrix<V> &another);
     ~Matrix();
     //getters
-    size_t getNumCols() const;
     size_t getNumRows() const;
+    size_t getNumCols() const;
     T get(int i, int j) const;
     std::vector<std::vector<T>> getMatrix() const;
     std::vector<T> getColumn(const int &index)const;
@@ -43,15 +43,19 @@ public:
     Matrix<T> operator- (const Matrix<T> &another) const;//substraction
     Matrix<T> operator* (const Matrix<T> &another) const;//multiplication
 
-    /// TODO:
     void removeColumn(const int &index);
     void removeRow(const int &index);
+    template<typename V>
+    void addRow(const std::vector<V> &v, const int &times = 1);
+    void addRow(const int &n = 0, const int &times = 1);
+    template<typename V>
+    void addColumn(const std::vector<V> &v, const int &times = 1);
+    void addColumn(const int &n = 0, const int &times = 1);
+    void resize(const int &newNumCols, const int& newNumRows, const int &n = 0);
 
-    void print(const std::string &caption = "") const{
-        std::cout<<"--------------"<<std::endl;
-        std::cout<<caption<<std::endl;
-        for(size_t i = 0; i < numCols; i++){
-            for(size_t j = 0; j< numRows; j++){
+    void print() const{
+        for(size_t i = 0; i < numRows; i++){
+            for(size_t j = 0; j< numCols; j++){
                 std::cout<<M[i][j]<<" ";
             }
             std::cout<<std::endl;
@@ -61,4 +65,5 @@ public:
 
 #include "MatrixAccessors.cpp"
 #include "MatrixOperators.cpp"
+#include "Matrix.cpp"
 #endif

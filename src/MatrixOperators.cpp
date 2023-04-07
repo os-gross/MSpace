@@ -16,8 +16,8 @@ bool Matrix<T, U>::operator!= (const Matrix<T> &another) const{
 template<typename T, typename U>
 Matrix<T>& Matrix<T, U>::operator= (const Matrix<T> &another){
     if(another != *this){
-        numCols = another.numCols;
         numRows = another.numRows;
+        numCols = another.numCols;
         M = another.getMatrix();
     };
     return *this;
@@ -26,13 +26,14 @@ Matrix<T>& Matrix<T, U>::operator= (const Matrix<T> &another){
 template<typename T, typename U>
 template<typename V>
 Matrix<T> Matrix<T, U>::operator*(const V &scalar) const{
-    Matrix<T> res(numCols, numRows);
+    Matrix<T> res(numRows, numCols);
 
-    for(size_t i = 0; i < numCols; i++){
-        for(size_t j = 0; j< numRows; j++){
+    for(size_t j = 0; j < numRows; j++){
+        for(size_t i = 0; i < numCols; i++){
             res.set(i, j, M[i][j] * static_cast<T>(scalar));
         }
     }
+
     return std::move(res);
 }
 //multiplication by scalar n * M
@@ -43,11 +44,11 @@ Matrix<T> operator*(const V& scalar, const Matrix<T>& matrix) {
 //division by scalar
 template<typename T, typename U>
 Matrix<T> Matrix<T, U>::operator/(const T &scalar) const{
-    Matrix<T> res(numCols, numRows);
-
-    for(size_t i = 0; i < numCols; i++){
-        for(size_t j = 0; j< numRows; j++){
-            res.set(i, j, M[i][j] / scalar);
+    if(scalar == 0) throw MatrixDevisionZero();
+    Matrix<T> res(numRows, numCols);
+    for(size_t j = 0; j < numRows; j++){
+        for(size_t i = 0; i < numCols; i++){
+            res.set(i, j, M[i][j] / static_cast<T>(scalar));
         }
     }
     return std::move(res);
@@ -55,9 +56,9 @@ Matrix<T> Matrix<T, U>::operator/(const T &scalar) const{
 //negation
 template<typename T, typename U>
 Matrix<T> Matrix<T, U>::operator-()const{
-    Matrix<T> res(numCols, numRows);
-    for(size_t i = 0; i < numCols; i++){
-        for(size_t j =0; j< numRows; j++){
+    Matrix<T> res(numRows, numCols);
+    for(size_t i = 0; i < numRows; i++){
+        for(size_t j =0; j< numCols; j++){
             res.set(i, j, -M[i][j]);
         }
     }
@@ -73,8 +74,8 @@ std::vector<T> Matrix<T, U>::operator[](const int &n) const{
 
 template<typename T, typename U>
 T& Matrix<T, U>::operator()(const int &i, const int &j){
-    if(i < 0 || i >= numCols) throw ColumnIndexOutOfRange();
-    if(j < 0 || j >= numRows) throw RowIndexOutOfRange();
+    if(i < 0 || i >= numRows) throw RowIndexOutOfRange();
+    if(j < 0 || j >= numCols) throw ColumnIndexOutOfRange();
     return M[i][j];
 };
 
@@ -84,14 +85,14 @@ Matrix<T> Matrix<T, U>::operator+ (const Matrix<T> &another) const{
     if(numCols != another.getNumCols() || numRows != another.getNumRows()){
         throw MatrixSizeMismatchException();
     }
-    Matrix<T> res(numCols, numRows);
-    for(size_t i = 0; i < numCols; i++){
-        for(size_t j =0; j< numRows; j++){
+    Matrix<T> res(numRows, numCols);
+    for(size_t i = 0; i < numRows; i++){
+        for(size_t j =0; j< numCols; j++){
             res.set(i, j, M[i][j] + another[i][j]);
         }
     }
     return std::move(res);
-};
+}
 //substraction of two matrices
 template<typename T, typename U>
 Matrix<T> Matrix<T, U>::operator- (const Matrix<T> &another) const{
@@ -101,12 +102,12 @@ Matrix<T> Matrix<T, U>::operator- (const Matrix<T> &another) const{
 template<typename T, typename U>
 Matrix<T> Matrix<T, U>::operator* (const Matrix<T> &another) const{
     if(numRows != another.getNumCols()) throw MatrixSizeMismatchException();
-    Matrix<T> res(numCols, another.getNumRows()); 
+    Matrix<T> res(numRows, another.getNumCols()); 
 
-    for(size_t i = 0; i < numCols; i++){
+    for(size_t i = 0; i < numRows; i++){
         for(size_t j = 0; j < another.getNumRows(); j++){
             res.set(i, j, 0);
-            for(size_t k = 0; k < numRows; k++ ){
+            for(size_t k = 0; k < numCols; k++ ){
                 res.set(i, j, res[i][j] + M[i][k] * another[k][j]);
             }
         }
