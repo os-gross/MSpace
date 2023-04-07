@@ -3,7 +3,10 @@
 
 #include <vector>
 #include <iostream>
-#include "MatrixExceptions.cpp"
+#include "MatrixExceptions.hpp"
+
+template<typename T>
+class LUDis;
 
 template <typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>, bool>>
 class Matrix {
@@ -52,7 +55,9 @@ public:
     void addColumn(const std::vector<V> &v, const int &times = 1);
     void addColumn(const int &n = 0, const int &times = 1);
     void resize(const int &newNumCols, const int& newNumRows, const int &n = 0);
-
+    void swapRows(const int &first_index, const int &second_index);
+    void swapColumns(const int &first_index, const int &second_index);
+    LUDis<T> LU()const;
     void print() const{
         for(size_t i = 0; i < numRows; i++){
             for(size_t j = 0; j< numCols; j++){
@@ -65,5 +70,6 @@ public:
 
 #include "MatrixAccessors.cpp"
 #include "MatrixOperators.cpp"
+#include "MatrixAddons.hpp"
 #include "Matrix.cpp"
 #endif

@@ -76,4 +76,19 @@ void Matrix<T, U>::resize(const int &newNumRows, const int& newNumCols, const in
     numCols = newNumCols;
     M = newM;
 }
+template<typename T, typename U>
+void Matrix<T, U>::swapRows(const int &first_index, const int &second_index){
+    if(first_index < 0 || first_index >= numRows) throw RowIndexOutOfRange();
+    if(second_index < 0 || second_index >= numRows) throw RowIndexOutOfRange();
+    std::swap(M[first_index], M[second_index]);
+}
+
+template<typename T, typename U>
+void Matrix<T, U>::swapColumns(const int &first_index, const int &second_index){
+    if(first_index < 0 || first_index >= numCols) throw ColumnIndexOutOfRange();
+    if(second_index < 0 || second_index >= numCols) throw ColumnIndexOutOfRange();
+    for(size_t i = 0; i < numRows; i++) 
+        std::swap(M[i][first_index], M[i][second_index]);
+}
+
 #endif

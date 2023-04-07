@@ -133,6 +133,33 @@ TEST_F(MatrixTest, MatrixResize) {
     EXPECT_THROW(m.resize(-1, 2, 0), MatrixNegativeSize);
     EXPECT_THROW(m.resize(2, -1, 0), MatrixNegativeSize);
 };
+TEST_F(MatrixTest, MatrixSwapRows){
+    Matrix<float> m(v1);
+    m.swapRows(1,2);
 
+    EXPECT_EQ(m(1, 0), 7);
+    EXPECT_EQ(m(1, 1), 8);
+    EXPECT_EQ(m(1, 2), 9);
+    EXPECT_EQ(m(2, 0), 4);
+    EXPECT_EQ(m(2, 1), 5);
+    EXPECT_EQ(m(2, 2), 6);
+
+    EXPECT_THROW(m.swapRows(-2, 2), RowIndexOutOfRange);
+    EXPECT_THROW(m.swapRows(100, 2), RowIndexOutOfRange);
+}
+TEST_F(MatrixTest, MatrixSwapColumns){
+    Matrix<float> m(v1);
+    m.swapColumns(1,2);
+    
+    EXPECT_EQ(m(0, 1), 3);
+    EXPECT_EQ(m(1, 1), 6);
+    EXPECT_EQ(m(2, 1), 9);
+    EXPECT_EQ(m(0, 2), 2);
+    EXPECT_EQ(m(1, 2), 5);
+    EXPECT_EQ(m(2, 2), 8);
+
+    EXPECT_THROW(m.swapColumns(-2, 2), ColumnIndexOutOfRange);
+    EXPECT_THROW(m.swapColumns(100, 2), ColumnIndexOutOfRange);
+}
 
 #endif
