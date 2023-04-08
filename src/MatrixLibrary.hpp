@@ -3,11 +3,20 @@
 #include "Matrix.hpp"
 
 template<typename T>
-class Decomposition{
+class DoubleDecomposition{
 public:
     Matrix<T> first;
     Matrix<T> second;
-    Decomposition(const Matrix<T> &m1, const Matrix<T> &m2):first{m1}, second{m2}{};
+    DoubleDecomposition(const Matrix<T> &m1, const Matrix<T> &m2):first{m1}, second{m2}{};
+};
+template<typename T>
+class TripleDecomposition{
+public:
+    Matrix<T> first;
+    Matrix<T> middle;
+    Matrix<T> second;
+    TripleDecomposition(const Matrix<T> &m1, const Matrix<T> &m2, const Matrix<T> &m3):
+    first{m1},middle{m2}, second{m3}{};
 };
 
 #endif

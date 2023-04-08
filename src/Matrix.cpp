@@ -110,7 +110,52 @@ void Matrix<T, U>::transpose() noexcept{
 }
 
 template<typename T, typename U>
-Decomposition<T> Matrix<T, U>::LUDecompose() const{
+bool Matrix<T, U>::isIdentity() const noexcept{
+    for(size_t i = 0; i < numRows; i++){
+        if(M[i][i] != 1) return false;
+        for(size_t j = 0; j < numCols; j++){
+            if(i == j) continue;
+            if(M[i][j] != 0) return false;
+        }
+    }
+    return true;
+}
+
+template<typename T, typename U>
+bool Matrix<T, U>::isUpperTriangle() const noexcept{
+    for(size_t i = 1; i < numRows; i++){ 
+        for(size_t j = 0; j < i; j++){
+            if(M[i][j] != 0) return false;
+        }
+    }
+    return true;
+}
+
+template<typename T, typename U>
+bool Matrix<T, U>::isLowerTriangle() const noexcept {
+    for (size_t i = 0; i < numRows; i++) {
+        for (size_t j = i + 1; j < numCols; j++) 
+            if (M[i][j] != 0) {
+                return false; 
+        }
+    }
+    return true;
+}
+
+template<typename T, typename U>
+bool Matrix<T, U>::isTriangle() const noexcept{
+    return isUpperTriangle() || isLowerTriangle();
+}
+
+
+template<typename T, typename U>
+T Matrix<T, U>::determinant() const noexcept{
+    TripleDecomposition<T> triple = this->LUDecompose();
+    return 0;
+}
+
+template<typename T, typename U>
+TripleDecomposition<T> Matrix<T, U>::LUDecompose() const{
     if(numRows != numCols) throw MatrixNotSquared();
     const int n = numRows;
     Matrix<T> upper(*this);
@@ -134,7 +179,6 @@ Decomposition<T> Matrix<T, U>::LUDecompose() const{
                 P.swapRows(maxRow, i);
             }
         }
-
         for(size_t j = i + 1; j < n; j++){
             T value = upper[j][i]/upper[i][i];
             lower(j, i) = value;
@@ -143,9 +187,9 @@ Decomposition<T> Matrix<T, U>::LUDecompose() const{
             }
         }
     }
-
-    Decomposition<T> res{lower * P, upper };
+    TripleDecomposition<T> res{lower, P, upper};
     return res;
 }
+
 
 #endif

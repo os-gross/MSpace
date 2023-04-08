@@ -6,7 +6,9 @@
 #include "MatrixExceptions.hpp"
 
 template<typename T>
-class Decomposition;
+class DoubleDecomposition;
+template<typename T>
+class TripleDecomposition;
 
 template <typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>, bool>>
 class Matrix {
@@ -44,7 +46,7 @@ public:
     T& operator()(const int &i, const int &j);//double index access
     Matrix<T> operator+ (const Matrix<T> &another) const;//sum
     Matrix<T> operator- (const Matrix<T> &another) const;//substraction
-    // Matrix<T> operator* (const Matrix<T> &first, const Matrix<T> &second) const;//multiplication
+    Matrix<T> operator* (const Matrix<T> &another) const;//multiplication
 
     void removeColumn(const int &index);
     void removeRow(const int &index);
@@ -59,7 +61,16 @@ public:
     void swapColumns(const int &first_index, const int &second_index);
     void makeIdentity() noexcept;
     void transpose() noexcept;
-    Decomposition<T> LUDecompose() const;
+
+    bool isIdentity() const noexcept;
+    bool isUpperTriangle() const noexcept;
+    bool isLowerTriangle() const noexcept;
+    bool isTriangle() const noexcept;
+
+    T determinant() const noexcept;
+    TripleDecomposition<T> LUDecompose() const;
+
+
     void print() const{
         for(size_t i = 0; i < numRows; i++){
             for(size_t j = 0; j< numCols; j++){

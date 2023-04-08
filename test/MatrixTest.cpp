@@ -163,15 +163,49 @@ TEST_F(MatrixTest, MatrixSwapColumns){
 }
 
 TEST_F(MatrixTest, MatrixLUDecomposition){
-    std::vector<std::vector<double>> v ={
-        {-1, 1, 6, 1},
-        {-4, -8, 6, 1},
-        {2, 16,23, 1},
-        {2, 16,23, 10},
+    Matrix<double> m1(v1);
+    Matrix<double> m2(v2);
+    Matrix<double> m3(v3);
+    Matrix<double> m4(v4);
+    Matrix<double> m5(v5);
+    Matrix<double> m6(v6);
+    Matrix<double> m7(v7);
+    TripleDecomposition<double> res1 = m1.LUDecompose();
+    TripleDecomposition<double> res2 = m2.LUDecompose();
+    TripleDecomposition<double> res3 = m3.LUDecompose();
+    TripleDecomposition<double> res4 = m4.LUDecompose();
+    TripleDecomposition<double> res5 = m5.LUDecompose();
+    TripleDecomposition<double> res6 = m6.LUDecompose();
+    TripleDecomposition<double> res7 = m7.LUDecompose();
+    EXPECT_EQ(m1, res1.first * res1.middle * res1.second);
+    EXPECT_EQ(m2, res2.first * res2.middle * res2.second);
+    EXPECT_EQ(m3, res3.first * res3.middle * res3.second);
+    EXPECT_EQ(m4, res4.first * res4.middle * res4.second);
+    EXPECT_EQ(m5, res5.first * res5.middle * res5.second);
+    EXPECT_EQ(m6, res6.first * res6.middle * res6.second);
+    EXPECT_EQ(m7, res7.first * res7.middle * res7.second);
+    m7.resize(3,4);
+    EXPECT_THROW(m7.LUDecompose(), MatrixNotSquared);
+}
 
-    };
-    Matrix<double> m(v);
-    m.LUDecompose();
+
+TEST_F(MatrixTest, MatrixisIdentity){
+    Matrix<float> m1(5);
+    Matrix<float> m2(10);
+    m1.makeIdentity();
+    EXPECT_TRUE(m1.isIdentity());
+    EXPECT_FALSE(m2.isIdentity());
+}
+TEST_F(MatrixTest, MatrixisTriangle){
+    Matrix<float> m1(v1);
+    auto res = m1.LUDecompose();
+    EXPECT_TRUE(res.first.isLowerTriangle());
+    EXPECT_FALSE(res.first.isUpperTriangle());
+    EXPECT_TRUE(res.first.isTriangle());
+    EXPECT_FALSE(res.second.isLowerTriangle());
+    EXPECT_TRUE(res.second.isUpperTriangle());
+    EXPECT_TRUE(res.second.isTriangle());
+
 }
 
 

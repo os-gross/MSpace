@@ -99,16 +99,15 @@ Matrix<T> Matrix<T, U>::operator- (const Matrix<T> &another) const{
     return (*this) + (-another);
 };
 //multiplication of two matrices
-template<typename T>
-Matrix<T> operator* (const Matrix<T> &first, const Matrix<T> &second){
-    if(first.getNumCols() != second.getNumRows()) throw MatrixSizeMismatchException();
-    Matrix<T> res(first.getNumRows(), second.getNumCols()); 
-
-    for(size_t i = 0; i < first.getNumRows(); i++){
-        for(size_t j = 0; j < second.getNumCols(); j++){
+template<typename T, typename U>
+Matrix<T> Matrix<T, U>::operator* (const Matrix<T> &another) const{
+    if(numCols != another.getNumRows()) throw MatrixSizeMismatchException();
+    Matrix<T> res(numRows, another.getNumCols()); 
+    for(size_t i = 0; i < numRows; i++){
+        for(size_t j = 0; j < another.getNumCols(); j++){
             res.set(i, j, 0);
-            for(size_t k = 0; k < first.getNumCols(); k++ ){
-                res.set(i, j, res.get(i, j) + first.get(i, k) * second.get(k, j));
+            for(size_t k = 0; k < numCols; k++ ){
+                res.set(i, j, res.get(i, j) + M[i][k] * another.get(k, j));
             }
         }
     }
