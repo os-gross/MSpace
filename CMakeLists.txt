@@ -5,7 +5,7 @@ project(MSpace LANGUAGES CXX)
 
 # Add the matrix library target
 add_library(matrix SHARED
-    src/MSpace.hpp
+    src/Matrix.hpp
 )
 
 # Add the test executable target

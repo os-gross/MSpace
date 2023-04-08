@@ -6,7 +6,7 @@
 #include "MatrixExceptions.hpp"
 
 template<typename T>
-class LUDis;
+class Decomposition;
 
 template <typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>, bool>>
 class Matrix {
@@ -23,28 +23,28 @@ public:
     Matrix(const Matrix<V> &another);
     ~Matrix();
     //getters
-    size_t getNumRows() const;
-    size_t getNumCols() const;
+    size_t getNumRows() const noexcept;
+    size_t getNumCols() const noexcept;
     T get(int i, int j) const;
-    std::vector<std::vector<T>> getMatrix() const;
+    std::vector<std::vector<T>> getMatrix() const noexcept;
     std::vector<T> getColumn(const int &index)const;
     std::vector<T> getRow(const int &index)const;
     Matrix<T> getSubMatrix(const int &i1, const int &j1, const int &i2, const int &j2)const;
     //Setters
     void set(const int &i, const int &j, const T &newValue);
     //Operators
-    bool operator== (const Matrix<T> &another) const;//equals
-    bool operator!= (const Matrix<T> &another) const;//not equals
-    Matrix<T>& operator=(const Matrix<T> &another);//asigment
+    bool operator== (const Matrix<T> &another) const noexcept;//equals
+    bool operator!= (const Matrix<T> &another) const noexcept;//not equals
+    Matrix<T>& operator=(const Matrix<T> &another) noexcept;//asigment
     template<typename V>
-    Matrix<T> operator*(const V &scalar) const;//mupltiplication by scalar
+    Matrix<T> operator*(const V &scalar) const noexcept;//mupltiplication by scalar
     Matrix<T> operator/(const T &scalar) const;//division by scalar
-    Matrix<T> operator-()const;//negation
+    Matrix<T> operator-()const noexcept;//negation
     std::vector<T> operator[](const int &n) const;//index access
     T& operator()(const int &i, const int &j);//double index access
     Matrix<T> operator+ (const Matrix<T> &another) const;//sum
     Matrix<T> operator- (const Matrix<T> &another) const;//substraction
-    Matrix<T> operator* (const Matrix<T> &another) const;//multiplication
+    // Matrix<T> operator* (const Matrix<T> &first, const Matrix<T> &second) const;//multiplication
 
     void removeColumn(const int &index);
     void removeRow(const int &index);
@@ -57,7 +57,9 @@ public:
     void resize(const int &newNumCols, const int& newNumRows, const int &n = 0);
     void swapRows(const int &first_index, const int &second_index);
     void swapColumns(const int &first_index, const int &second_index);
-    LUDis<T> LU()const;
+    void makeIdentity() noexcept;
+    void transpose() noexcept;
+    Decomposition<T> LUDecompose() const;
     void print() const{
         for(size_t i = 0; i < numRows; i++){
             for(size_t j = 0; j< numCols; j++){
@@ -68,8 +70,8 @@ public:
     }
 };
 
-#include "MatrixAccessors.cpp"
 #include "MatrixOperators.cpp"
-#include "MatrixAddons.hpp"
+#include "MatrixAccessors.cpp"
+#include "MatrixLibrary.hpp"
 #include "Matrix.cpp"
 #endif

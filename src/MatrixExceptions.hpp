@@ -40,6 +40,12 @@ public:
     }
 };
 
+class MatrixNotSquared : public std::exception{
+public:
+    const char * what() const noexcept override{
+        return "Impossible to perform the action. The matrix is not squared.";
+    }
+};
 
 
 

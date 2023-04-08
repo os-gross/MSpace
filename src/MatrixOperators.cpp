@@ -4,17 +4,17 @@
 #include "Matrix.hpp"
 //equals
 template<typename T, typename U>
-bool Matrix<T, U>::operator== (const Matrix<T> &another) const{
+bool Matrix<T, U>::operator== (const Matrix<T> &another) const noexcept{
     return M == another.getMatrix();
 };
 //not equals
 template<typename T, typename U>
-bool Matrix<T, U>::operator!= (const Matrix<T> &another) const{
+bool Matrix<T, U>::operator!= (const Matrix<T> &another) const noexcept{
     return M != another.getMatrix();
 };
 //assignment
 template<typename T, typename U>
-Matrix<T>& Matrix<T, U>::operator= (const Matrix<T> &another){
+Matrix<T>& Matrix<T, U>::operator= (const Matrix<T> &another) noexcept{
     if(another != *this){
         numRows = another.numRows;
         numCols = another.numCols;
@@ -25,7 +25,7 @@ Matrix<T>& Matrix<T, U>::operator= (const Matrix<T> &another){
 //multiplication by scalar M * n
 template<typename T, typename U>
 template<typename V>
-Matrix<T> Matrix<T, U>::operator*(const V &scalar) const{
+Matrix<T> Matrix<T, U>::operator*(const V &scalar) const noexcept{
     Matrix<T> res(numRows, numCols);
 
     for(size_t j = 0; j < numRows; j++){
@@ -38,7 +38,7 @@ Matrix<T> Matrix<T, U>::operator*(const V &scalar) const{
 }
 //multiplication by scalar n * M
 template<typename V, typename T>
-Matrix<T> operator*(const V& scalar, const Matrix<T>& matrix) {
+Matrix<T> operator*(const V& scalar, const Matrix<T>& matrix) noexcept{
     return matrix * scalar;
 }
 //division by scalar
@@ -55,7 +55,7 @@ Matrix<T> Matrix<T, U>::operator/(const T &scalar) const{
 }
 //negation
 template<typename T, typename U>
-Matrix<T> Matrix<T, U>::operator-()const{
+Matrix<T> Matrix<T, U>::operator-()const noexcept{
     Matrix<T> res(numRows, numCols);
     for(size_t i = 0; i < numRows; i++){
         for(size_t j =0; j< numCols; j++){
@@ -99,19 +99,19 @@ Matrix<T> Matrix<T, U>::operator- (const Matrix<T> &another) const{
     return (*this) + (-another);
 };
 //multiplication of two matrices
-template<typename T, typename U>
-Matrix<T> Matrix<T, U>::operator* (const Matrix<T> &another) const{
-    if(numRows != another.getNumCols()) throw MatrixSizeMismatchException();
-    Matrix<T> res(numRows, another.getNumCols()); 
+template<typename T>
+Matrix<T> operator* (const Matrix<T> &first, const Matrix<T> &second){
+    if(first.getNumCols() != second.getNumRows()) throw MatrixSizeMismatchException();
+    Matrix<T> res(first.getNumRows(), second.getNumCols()); 
 
-    for(size_t i = 0; i < numRows; i++){
-        for(size_t j = 0; j < another.getNumRows(); j++){
+    for(size_t i = 0; i < first.getNumRows(); i++){
+        for(size_t j = 0; j < second.getNumCols(); j++){
             res.set(i, j, 0);
-            for(size_t k = 0; k < numCols; k++ ){
-                res.set(i, j, res[i][j] + M[i][k] * another[k][j]);
+            for(size_t k = 0; k < first.getNumCols(); k++ ){
+                res.set(i, j, res.get(i, j) + first.get(i, k) * second.get(k, j));
             }
         }
     }
-    return std::move(res);
+    return res;
 };
 #endif

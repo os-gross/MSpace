@@ -77,7 +77,7 @@ void Matrix<T, U>::resize(const int &newNumRows, const int& newNumCols, const in
     M = newM;
 }
 template<typename T, typename U>
-void Matrix<T, U>::swapRows(const int &first_index, const int &second_index){
+void Matrix<T, U>::swapRows( const int &first_index,  const int &second_index) {
     if(first_index < 0 || first_index >= numRows) throw RowIndexOutOfRange();
     if(second_index < 0 || second_index >= numRows) throw RowIndexOutOfRange();
     std::swap(M[first_index], M[second_index]);
@@ -87,8 +87,65 @@ template<typename T, typename U>
 void Matrix<T, U>::swapColumns(const int &first_index, const int &second_index){
     if(first_index < 0 || first_index >= numCols) throw ColumnIndexOutOfRange();
     if(second_index < 0 || second_index >= numCols) throw ColumnIndexOutOfRange();
-    for(size_t i = 0; i < numRows; i++) 
+    for(size_t i = 0; i < numRows; i++)
         std::swap(M[i][first_index], M[i][second_index]);
+}
+template<typename T, typename U>
+void Matrix<T, U>::makeIdentity() noexcept {
+    for(size_t i = 0; i < numRows; i++){
+        for(size_t j = 0; j < numCols; j++) 
+            if(i == j) M[i][j] = 1;
+            else M[i][j] = 0;
+    }
+}
+
+template<typename T, typename U>
+void Matrix<T, U>::transpose() noexcept{
+    Matrix<T> temp(numCols, numRows);
+    for(size_t i = 0; i<numRows; i++){
+        for(size_t j = 0; j < numCols; j++)
+            temp(j, i) = M[i][j];
+    }
+    *this = temp;
+}
+
+template<typename T, typename U>
+Decomposition<T> Matrix<T, U>::LUDecompose() const{
+    if(numRows != numCols) throw MatrixNotSquared();
+    const int n = numRows;
+    Matrix<T> upper(*this);
+    Matrix<T> lower(n);
+    Matrix<T> P(n);
+    lower.makeIdentity();
+    P.makeIdentity();
+    for (size_t i = 0; i < n; i++){
+        if(upper[i][i] == 0){
+            int maxRow = i;
+            T maxValue = upper[i][i];
+            for(size_t j = i + 1; j < n; j++ ){
+                T val = abs(upper[j][i]);
+                if(val > maxValue){
+                    maxValue = val;
+                    maxRow = j;
+                }
+            };
+            if(maxRow != i ){
+                upper.swapRows(maxRow, i);
+                P.swapRows(maxRow, i);
+            }
+        }
+
+        for(size_t j = i + 1; j < n; j++){
+            T value = upper[j][i]/upper[i][i];
+            lower(j, i) = value;
+            for(size_t k = 0; k < n; k++){
+                upper(j ,k) = upper[j][k] - value*upper[i][k];
+            }
+        }
+    }
+
+    Decomposition<T> res{lower * P, upper };
+    return res;
 }
 
 #endif

@@ -162,4 +162,19 @@ TEST_F(MatrixTest, MatrixSwapColumns){
     EXPECT_THROW(m.swapColumns(100, 2), ColumnIndexOutOfRange);
 }
 
+TEST_F(MatrixTest, MatrixLUDecomposition){
+    std::vector<std::vector<double>> v ={
+        {-1, 1, 6, 1},
+        {-4, -8, 6, 1},
+        {2, 16,23, 1},
+        {2, 16,23, 10},
+
+    };
+    Matrix<double> m(v);
+    m.LUDecompose();
+}
+
+
+
+
 #endif

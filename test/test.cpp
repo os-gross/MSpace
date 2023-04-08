@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include <vector>
-#include "../src/MSpace.hpp"
+#include "../src/Matrix.hpp"
 
 
 class MatrixTest : public ::testing::Test {

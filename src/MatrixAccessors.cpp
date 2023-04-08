@@ -62,12 +62,12 @@ Matrix<T, U>::~Matrix(){
 };
 // Getters
 template <typename T, typename U>
-size_t Matrix<T, U>::getNumRows() const {
+size_t Matrix<T, U>::getNumRows() const noexcept {
     return numRows;
 }
 
 template <typename T, typename U>
-size_t Matrix<T, U>::getNumCols() const {
+size_t Matrix<T, U>::getNumCols() const noexcept{
     return numCols;
 }
 
@@ -79,7 +79,7 @@ T Matrix<T, U>::get(int i, int j) const {
 }
 
 template <typename T, typename U>
-std::vector<std::vector<T>> Matrix<T, U>::getMatrix() const{
+std::vector<std::vector<T>> Matrix<T, U>::getMatrix() const noexcept{
     return M;
 }
 template<typename T, typename U>
