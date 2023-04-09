@@ -50,19 +50,19 @@ public:
     Matrix<T> operator- (const Matrix<T> &another) const;//substraction
     Matrix<T> operator* (const Matrix<T> &another) const;//multiplication
 
-    void removeColumn(const int &index);
-    void removeRow(const int &index);
+    Matrix<T>& removeColumn(const int &index);
+    Matrix<T>& removeRow(const int &index);
     template<typename V>
-    void addRow(const std::vector<V> &v, const int &times = 1);
-    void addRow(const int &n = 0, const int &times = 1);
+    Matrix<T>& addRow(const std::vector<V> &v, const int &times = 1);
+    Matrix<T>& addRow(const int &n = 0, const int &times = 1);
     template<typename V>
-    void addColumn(const std::vector<V> &v, const int &times = 1);
-    void addColumn(const int &n = 0, const int &times = 1);
-    void resize(const int &newNumCols, const int& newNumRows, const int &n = 0);
-    void swapRows(const int &first_index, const int &second_index);
-    void swapColumns(const int &first_index, const int &second_index);
-    void makeIdentity() noexcept;
-    void transpose() noexcept;
+    Matrix<T>& addColumn(const std::vector<V> &v, const int &times = 1);
+    Matrix<T>& addColumn(const int &n = 0, const int &times = 1);
+    Matrix<T>& resize(const int &newNumCols, const int& newNumRows, const int &n = 0);
+    Matrix<T>& swapRows(const int &first_index, const int &second_index);
+    Matrix<T>& swapColumns(const int &first_index, const int &second_index);
+    Matrix<T>& makeIdentity() noexcept;
+    Matrix<T>& transpose() noexcept;
 
     bool isIdentity() const noexcept;
     bool isUpperTriangle() const noexcept;

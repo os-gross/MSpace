@@ -3,64 +3,67 @@
 #include "Matrix.hpp"
 
 template<typename T, typename U>
-void Matrix<T, U>::removeRow(const int &index){
+Matrix<T>& Matrix<T, U>::removeRow(const int &index){
     if(index < 0 || index >= numRows) throw RowIndexOutOfRange();
     M.erase(M.begin() + index);
     numRows--;
+    return *this;
 }
 template<typename T, typename U>
-void Matrix<T, U>::removeColumn(const int &index){
+Matrix<T>& Matrix<T, U>::removeColumn(const int &index){
     if(index < 0 || index >= numCols) throw ColumnIndexOutOfRange();
     for(size_t i = 0; i < numRows; i++) M[i].erase(M[i].begin() + index);
     numCols--;
+    return *this;
 };
 template<typename T, typename U>
 template<typename V>
-void Matrix<T, U>::addRow(const std::vector<V> &v, const int &times){
+Matrix<T>& Matrix<T, U>::addRow(const std::vector<V> &v, const int &times){
     if(times < 0){
         throw MatrixNegativeValue();
     }
-    
     numRows += times;
     M.insert(M.end(), times, v);
+    return *this;
 }
 template<typename T, typename U>
-void Matrix<T, U>::addRow(const int &n, const int &times){
+Matrix<T>& Matrix<T, U>::addRow(const int &n, const int &times){
     if(times < 0){
         throw MatrixNegativeValue();
     }
     std::vector<T> v(numCols, n);
     numRows += times;
     M.insert(M.end(), times, v);
-
+    return *this;
 }
 template<typename T, typename U>
 template<typename V>
-void Matrix<T, U>::addColumn(const std::vector<V> &v, const int &times){
+Matrix<T>& Matrix<T, U>::addColumn(const std::vector<V> &v, const int &times){
     if(times < 0){
         throw MatrixNegativeValue();
     }
     numCols += times;
     for(size_t i = 0; i < numRows; i++) M[i].insert(M[i].end(), times, v[i]);
+    return *this;
 }
 template<typename T, typename U>
-void Matrix<T, U>::addColumn(const int &n, const int &times){
+Matrix<T>& Matrix<T, U>::addColumn(const int &n, const int &times){
     if(times < 0){
         throw MatrixNegativeValue();
     }
-
     numCols += times;
     for(size_t i = 0; i < numRows; i++) M[i].insert(M[i].end(), times, n);
+    return *this;
 }
 
 template<typename T, typename U>
-void Matrix<T, U>::resize(const int &newNumRows, const int& newNumCols, const int &n){
+Matrix<T>& Matrix<T, U>::resize(const int &newNumRows, const int& newNumCols, const int &n){
     if(newNumCols < 0 || newNumRows < 0 ) throw MatrixNegativeSize();
     if(newNumCols == 0 || newNumRows == 0) {
         numCols = 0;
         numRows = 0;
         M.clear();
-        return;
+        return *this;
     }   
     std::vector<std::vector<T>> newM(newNumRows, std::vector<T>(newNumCols, n));
 
@@ -75,32 +78,36 @@ void Matrix<T, U>::resize(const int &newNumRows, const int& newNumCols, const in
     numRows = newNumRows;
     numCols = newNumCols;
     M = newM;
+    return *this;
 }
 template<typename T, typename U>
-void Matrix<T, U>::swapRows( const int &first_index,  const int &second_index) {
+Matrix<T>& Matrix<T, U>::swapRows( const int &first_index,  const int &second_index) {
     if(first_index < 0 || first_index >= numRows) throw RowIndexOutOfRange();
     if(second_index < 0 || second_index >= numRows) throw RowIndexOutOfRange();
     std::swap(M[first_index], M[second_index]);
+    return *this;
 }
 
 template<typename T, typename U>
-void Matrix<T, U>::swapColumns(const int &first_index, const int &second_index){
+Matrix<T>& Matrix<T, U>::swapColumns(const int &first_index, const int &second_index){
     if(first_index < 0 || first_index >= numCols) throw ColumnIndexOutOfRange();
     if(second_index < 0 || second_index >= numCols) throw ColumnIndexOutOfRange();
     for(size_t i = 0; i < numRows; i++)
         std::swap(M[i][first_index], M[i][second_index]);
+    return *this;
 }
 template<typename T, typename U>
-void Matrix<T, U>::makeIdentity() noexcept {
+Matrix<T>& Matrix<T, U>::makeIdentity() noexcept {
     for(size_t i = 0; i < numRows; i++){
         for(size_t j = 0; j < numCols; j++) 
             if(i == j) M[i][j] = 1;
             else M[i][j] = 0;
     }
+    return *this;
 }
 
 template<typename T, typename U>
-void Matrix<T, U>::transpose() noexcept{
+Matrix<T>& Matrix<T, U>::transpose() noexcept{
     Matrix<T> temp(numCols, numRows);
     for(size_t i = 0; i<numRows; i++){
         for(size_t j = 0; j < numCols; j++)
