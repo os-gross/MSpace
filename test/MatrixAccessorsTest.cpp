@@ -25,7 +25,7 @@ TEST_F(MatrixTest, RectangularMatrixConstuctor){
   EXPECT_EQ(m.get(1, 1), 0);
 }
 
-TEST_F(MatrixTest, VectorConstructor) {
+TEST_F(MatrixTest, MatrixVectorConstructor) {
   Matrix<float> m(v1);
   EXPECT_EQ(m.getNumRows(), 3);
   EXPECT_EQ(m.getNumCols(), 3);
@@ -36,7 +36,7 @@ TEST_F(MatrixTest, VectorConstructor) {
   EXPECT_EQ(m.get(2, 2), 9);
 }
 
-TEST_F(MatrixTest, CopyConstructor) {
+TEST_F(MatrixTest, MatrixCopyConstructor) {
   Matrix<float> m1(v1);
   Matrix<float> m2(m1);
   EXPECT_EQ(m1.getNumRows(), m2.getNumRows());
@@ -48,12 +48,12 @@ TEST_F(MatrixTest, CopyConstructor) {
   EXPECT_EQ(m1.get(2, 2), m2.get(2, 2));
 }
 
-TEST_F(MatrixTest, getMatrixTest){
+TEST_F(MatrixTest, MatrixGetMatrix){
   Matrix<float> m1(v1);
   EXPECT_EQ(m1.getMatrix(),v1);
 }
 
-TEST_F(MatrixTest, getRowTest){
+TEST_F(MatrixTest, MatrixGetRow){
   Matrix<float> m1(v1);
   auto vTest = m1.getRow(2);
   EXPECT_EQ(vTest[0], 7);
@@ -62,7 +62,7 @@ TEST_F(MatrixTest, getRowTest){
   EXPECT_THROW(m1.getRow(-20), RowIndexOutOfRange);
   EXPECT_THROW(m1.getRow(4), RowIndexOutOfRange);
 }
-TEST_F(MatrixTest, getColumnTest){
+TEST_F(MatrixTest, MatrixGetColumn){
   Matrix<float> m1(v1);
   auto vTest = m1.getColumn(2);
   EXPECT_EQ(vTest[0], 3);
@@ -72,7 +72,15 @@ TEST_F(MatrixTest, getColumnTest){
   EXPECT_THROW(m1.getColumn(3), ColumnIndexOutOfRange);
 }
 
-TEST_F(MatrixTest, getSubmatrix){
+TEST_F(MatrixTest, MatrixGetDiagonal){
+  Matrix<float> m1(v1);
+  auto vTest = m1.getDiagonal();
+  EXPECT_EQ(vTest[0], 1);
+  EXPECT_EQ(vTest[1], 5);
+  EXPECT_EQ(vTest[2], 9);
+}
+
+TEST_F(MatrixTest, MatrixGetSubmatrix){
   Matrix<float> m1(v1);
   Matrix<float> subM = m1.getSubMatrix(1, 1, 2, 2);
   EXPECT_EQ(subM[0][0], 5);
@@ -83,7 +91,7 @@ TEST_F(MatrixTest, getSubmatrix){
   EXPECT_EQ(subM.getNumCols(), 2);
 }
 
-TEST_F(MatrixTest, setTest){
+TEST_F(MatrixTest, MatrixSet){
   Matrix<float> m1(v1);
   m1.set(0, 0, 200);
   m1.set(2, 2, -200);

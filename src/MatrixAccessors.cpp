@@ -99,6 +99,17 @@ std::vector<T> Matrix<T,U>::getColumn(const int &index)const{
         res.push_back(M[i][index]);
     }
     return std::move(res);
+
+}
+template<typename T, typename U>
+std::vector<T> Matrix<T,U>::getDiagonal()const noexcept{
+    std::vector<T> res;
+    size_t min = std::min(numRows, numCols);
+    res.reserve(min);
+    for(size_t i = 0; i < min; i++){
+       res.push_back(M[i][i]);
+    }
+    return std::move(res);
 }
 
 template<typename T, typename U> 

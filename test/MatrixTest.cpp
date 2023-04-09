@@ -163,27 +163,34 @@ TEST_F(MatrixTest, MatrixSwapColumns){
 }
 
 TEST_F(MatrixTest, MatrixLUDecomposition){
-    Matrix<double> m1(v1);
-    Matrix<double> m2(v2);
-    Matrix<double> m3(v3);
-    Matrix<double> m4(v4);
-    Matrix<double> m5(v5);
-    Matrix<double> m6(v6);
-    Matrix<double> m7(v7);
-    TripleDecomposition<double> res1 = m1.LUDecompose();
-    TripleDecomposition<double> res2 = m2.LUDecompose();
-    TripleDecomposition<double> res3 = m3.LUDecompose();
-    TripleDecomposition<double> res4 = m4.LUDecompose();
-    TripleDecomposition<double> res5 = m5.LUDecompose();
-    TripleDecomposition<double> res6 = m6.LUDecompose();
-    TripleDecomposition<double> res7 = m7.LUDecompose();
-    EXPECT_EQ(m1, res1.first * res1.middle * res1.second);
-    EXPECT_EQ(m2, res2.first * res2.middle * res2.second);
-    EXPECT_EQ(m3, res3.first * res3.middle * res3.second);
-    EXPECT_EQ(m4, res4.first * res4.middle * res4.second);
-    EXPECT_EQ(m5, res5.first * res5.middle * res5.second);
-    EXPECT_EQ(m6, res6.first * res6.middle * res6.second);
-    EXPECT_EQ(m7, res7.first * res7.middle * res7.second);
+    Matrix<double> m1(v1), m2(v2), m3(v3), m4(v4), m5(v5), m6(v6), m7(v7);
+    TripleDecomposition<double> triple1 = m1.LUDecompose();
+    TripleDecomposition<double> triple2 = m2.LUDecompose();
+    TripleDecomposition<double> triple3 = m3.LUDecompose();
+    TripleDecomposition<double> triple4 = m4.LUDecompose();
+    TripleDecomposition<double> triple5 = m5.LUDecompose();
+    TripleDecomposition<double> triple6 = m6.LUDecompose();
+    TripleDecomposition<double> triple7 = m7.LUDecompose();
+    auto res1 = triple1.first * triple1.middle * triple1.second;
+    auto res2 = triple2.first * triple2.middle * triple2.second;
+    auto res3 = triple3.first * triple3.middle * triple3.second;
+    auto res4 = triple4.first * triple4.middle * triple4.second;
+    auto res5 = triple5.first * triple5.middle * triple5.second;
+    auto res6 = triple6.first * triple6.middle * triple6.second;
+    auto res7 = triple7.first * triple7.middle * triple7.second;
+    for(size_t i = 0; i < m1.getNumRows(); i++){
+        for(size_t j = 0; j < m1.getNumCols(); j++){
+            ASSERT_DOUBLE_EQ(m1[i][j], res1[i][j]);
+            ASSERT_DOUBLE_EQ(m2[i][j], res2[i][j]);
+            ASSERT_DOUBLE_EQ(m3[i][j], res3[i][j]);
+            ASSERT_DOUBLE_EQ(m4[i][j], res4[i][j]);
+            ASSERT_DOUBLE_EQ(m5[i][j], res5[i][j]);
+            ASSERT_DOUBLE_EQ(m6[i][j], res6[i][j]);
+            ASSERT_DOUBLE_EQ(m7[i][j], res7[i][j]);
+        }
+
+        
+    }
     m7.resize(3,4);
     EXPECT_THROW(m7.LUDecompose(), MatrixNotSquared);
 }
@@ -205,10 +212,16 @@ TEST_F(MatrixTest, MatrixisTriangle){
     EXPECT_FALSE(res.second.isLowerTriangle());
     EXPECT_TRUE(res.second.isUpperTriangle());
     EXPECT_TRUE(res.second.isTriangle());
-
 }
 
-
-
-
+TEST_F(MatrixTest, MatrixDetermiannt){
+    Matrix<double> m1(v1), m2(v2), m3(v3), m4(v4), m5(v5), m6(v6), m7(v7);
+    ASSERT_DOUBLE_EQ(m1.determinant(), 0);
+    ASSERT_DOUBLE_EQ(m2.determinant(), 0);
+    ASSERT_DOUBLE_EQ(m3.determinant(), -270);
+    ASSERT_DOUBLE_EQ(m4.determinant(), 0);
+    ASSERT_DOUBLE_EQ(m5.determinant(), 5824);
+    ASSERT_DOUBLE_EQ(m6.determinant(), -1);
+    ASSERT_DOUBLE_EQ(m7.determinant(), -1);
+}
 #endif

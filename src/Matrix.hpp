@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <iostream>
+#include <cmath>
 #include "MatrixExceptions.hpp"
 
 template<typename T>
@@ -31,6 +32,7 @@ public:
     std::vector<std::vector<T>> getMatrix() const noexcept;
     std::vector<T> getColumn(const int &index)const;
     std::vector<T> getRow(const int &index)const;
+    std::vector<T> getDiagonal() const noexcept;
     Matrix<T> getSubMatrix(const int &i1, const int &j1, const int &i2, const int &j2)const;
     //Setters
     void set(const int &i, const int &j, const T &newValue);
@@ -67,8 +69,8 @@ public:
     bool isLowerTriangle() const noexcept;
     bool isTriangle() const noexcept;
 
-    T determinant() const noexcept;
     TripleDecomposition<T> LUDecompose() const;
+    T determinant() const noexcept;
 
 
     void print() const{

@@ -147,13 +147,6 @@ bool Matrix<T, U>::isTriangle() const noexcept{
     return isUpperTriangle() || isLowerTriangle();
 }
 
-
-template<typename T, typename U>
-T Matrix<T, U>::determinant() const noexcept{
-    TripleDecomposition<T> triple = this->LUDecompose();
-    return 0;
-}
-
 template<typename T, typename U>
 TripleDecomposition<T> Matrix<T, U>::LUDecompose() const{
     if(numRows != numCols) throw MatrixNotSquared();
@@ -190,6 +183,23 @@ TripleDecomposition<T> Matrix<T, U>::LUDecompose() const{
     TripleDecomposition<T> res{lower, P, upper};
     return res;
 }
-
+template<typename T, typename U>
+T Matrix<T, U>::determinant() const noexcept{
+    if(isTriangle()){
+       T sum = 1;
+       for(size_t i = 0; i < numRows; i++)
+            sum *= M[i][i];
+       return sum;
+    }
+    TripleDecomposition<T> triple = this->LUDecompose();
+    if(*this == triple.middle){ // when in P=A in A=LPU we get infinite reccursion. 
+        std::vector<T> diagonal = getDiagonal();
+        T sum = 0;
+        for(size_t i = 0; i < diagonal.size(); i++) sum += diagonal[i];
+        const int numOfSwaps = diagonal.size() - sum - 1;
+        return pow(-1, numOfSwaps);
+    }
+    return triple.first.determinant() * triple.second.determinant();
+}
 
 #endif
