@@ -15,7 +15,7 @@ Matrix<T>& Matrix<T, U>::removeColumn(const int &index){
     for(size_t i = 0; i < numRows; i++) M[i].erase(M[i].begin() + index);
     numCols--;
     return *this;
-};
+}
 template<typename T, typename U>
 template<typename V>
 Matrix<T>& Matrix<T, U>::addRow(const std::vector<V> &v, const int &times){
@@ -164,15 +164,15 @@ TripleDecomposition<T> Matrix<T, U>::LUDecompose() const{
     P.makeIdentity();
     for (size_t i = 0; i < n; i++){
         if(upper[i][i] == 0){
-            int maxRow = i;
+            int maxRow = static_cast<int>(i);
             T maxValue = upper[i][i];
             for(size_t j = i + 1; j < n; j++ ){
                 T val = abs(upper[j][i]);
                 if(val > maxValue){
                     maxValue = val;
-                    maxRow = j;
+                    maxRow = static_cast<int>(j);
                 }
-            };
+            }
             if(maxRow != i ){
                 upper.swapRows(maxRow, i);
                 P.swapRows(maxRow, i);

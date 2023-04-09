@@ -57,9 +57,7 @@ Matrix<T, U>::Matrix(const Matrix<V> &another) {
 
 //Destructor
 template<typename T, typename U>
-Matrix<T, U>::~Matrix(){
-    //initially empty
-};
+Matrix<T, U>::~Matrix()= default;
 // Getters
 template <typename T, typename U>
 size_t Matrix<T, U>::getNumRows() const noexcept {
@@ -128,7 +126,7 @@ Matrix<T> Matrix<T,U>::getSubMatrix(const int &i1, const int &j1,const int &i2, 
         for(size_t j = min_j; j <= max_j; j++){
             res(i - min_i, j - min_j) = M[i][j];
         }
-    };
+    }
     return res;
 }
 
