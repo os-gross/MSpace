@@ -72,6 +72,7 @@ public:
     TripleDecomposition<T> LUDecompose() const;
     T determinant() const noexcept;
 
+    std::vector<T> solveFor(const std::vector<T> &v) const;
 
     void print() const{
         for(size_t i = 0; i < numRows; i++){

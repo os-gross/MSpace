@@ -27,7 +27,7 @@ public:
         return "The sizes of the matrices do not match. Impossible to perform operation on matrices with different sizes.";
     }
 };
-class MatrixDevisionZero : public std::exception {
+class MatrixDivisionZero : public std::exception {
 public:
     const char* what() const noexcept override {
         return "Division by zero. It is impossible to divide the matrix by zero.";
@@ -44,6 +44,12 @@ class MatrixNotSquared : public std::exception{
 public:
     const char * what() const noexcept override{
         return "Impossible to perform the action. The matrix is not squared.";
+    }
+};
+class DeterminantIsZero : public std::exception{
+public:
+    const char * what() const noexcept override{
+        return "The determinant equals zero. This means that the matrix does not have unique solutions and an inverse.";
     }
 };
 

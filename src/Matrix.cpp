@@ -146,7 +146,6 @@ template<typename T, typename U>
 bool Matrix<T, U>::isTriangle() const noexcept{
     return isUpperTriangle() || isLowerTriangle();
 }
-
 template<typename T, typename U>
 TripleDecomposition<T> Matrix<T, U>::LUDecompose() const{
     if(numRows != numCols) throw MatrixNotSquared();
@@ -201,5 +200,31 @@ T Matrix<T, U>::determinant() const noexcept{
     }
     return triple.first.determinant() * triple.second.determinant();
 }
-
+template<typename T, typename U>
+std::vector<T> Matrix<T, U>::solveFor(const std::vector<T> &v) const {
+    auto triple = LUDecompose();
+    Matrix<T> lower = triple.first;
+    Matrix<T> upper = triple.second;
+    const int n = lower.getNumRows();
+    std::vector<T> y(n);
+    std::vector<T> x(n);
+    for(size_t i = 0; i < n; i++) {
+        T sum = 0;
+        for(size_t j = 0; j < i; j++) 
+            sum += y[j] * lower[i][j];
+    
+        if(lower[i][i] == 0)
+            throw DeterminantIsZero();
+        y[i] = (v[i] - sum)/lower[i][i];
+    }
+    for(int i = n - 1 ; i >= 0; i--) {
+        T sum = 0;
+        for(int j = n - 1; j >= i; j--) 
+            sum += x[j] * upper[i][j];  
+        if(upper[i][i] == 0)
+            throw DeterminantIsZero();
+        x[i] = (y[i] - sum)/upper[i][i];
+    }
+    return x;
+}
 #endif

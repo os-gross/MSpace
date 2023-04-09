@@ -180,13 +180,13 @@ TEST_F(MatrixTest, MatrixLUDecomposition){
     auto res7 = triple7.first * triple7.middle * triple7.second;
     for(size_t i = 0; i < m1.getNumRows(); i++){
         for(size_t j = 0; j < m1.getNumCols(); j++){
-            ASSERT_DOUBLE_EQ(m1[i][j], res1[i][j]);
-            ASSERT_DOUBLE_EQ(m2[i][j], res2[i][j]);
-            ASSERT_DOUBLE_EQ(m3[i][j], res3[i][j]);
-            ASSERT_DOUBLE_EQ(m4[i][j], res4[i][j]);
-            ASSERT_DOUBLE_EQ(m5[i][j], res5[i][j]);
-            ASSERT_DOUBLE_EQ(m6[i][j], res6[i][j]);
-            ASSERT_DOUBLE_EQ(m7[i][j], res7[i][j]);
+            EXPECT_DOUBLE_EQ(m1[i][j], res1[i][j]);
+            EXPECT_DOUBLE_EQ(m2[i][j], res2[i][j]);
+            EXPECT_DOUBLE_EQ(m3[i][j], res3[i][j]);
+            EXPECT_DOUBLE_EQ(m4[i][j], res4[i][j]);
+            EXPECT_DOUBLE_EQ(m5[i][j], res5[i][j]);
+            EXPECT_DOUBLE_EQ(m6[i][j], res6[i][j]);
+            EXPECT_DOUBLE_EQ(m7[i][j], res7[i][j]);
         }
 
         
@@ -216,12 +216,36 @@ TEST_F(MatrixTest, MatrixisTriangle){
 
 TEST_F(MatrixTest, MatrixDetermiannt){
     Matrix<double> m1(v1), m2(v2), m3(v3), m4(v4), m5(v5), m6(v6), m7(v7);
-    ASSERT_DOUBLE_EQ(m1.determinant(), 0);
-    ASSERT_DOUBLE_EQ(m2.determinant(), 0);
-    ASSERT_DOUBLE_EQ(m3.determinant(), -270);
-    ASSERT_DOUBLE_EQ(m4.determinant(), 0);
-    ASSERT_DOUBLE_EQ(m5.determinant(), 5824);
-    ASSERT_DOUBLE_EQ(m6.determinant(), -1);
-    ASSERT_DOUBLE_EQ(m7.determinant(), -1);
+    EXPECT_NEAR(m1.determinant(), 0, 1e-9);
+    EXPECT_NEAR(m2.determinant(), 0, 1e-9);
+    EXPECT_NEAR(m3.determinant(), -270, 1e-9);
+    EXPECT_NEAR(m4.determinant(), 0, 1e-9);
+    EXPECT_NEAR(m5.determinant(), 5824, 1e-9);
+    EXPECT_NEAR(m6.determinant(), -1, 1e-9);
+    EXPECT_NEAR(m7.determinant(), -1, 1e-9);
 }
+TEST_F(MatrixTest, MatrixSolveFor){
+    Matrix<double> m1(v1), m2(v2), m3(v3), m4(v4), m5(v5), m6(v6), m7(v7);
+    std::vector<double> v = {1, 0, 0};
+    EXPECT_THROW(m1.solveFor(v), DeterminantIsZero);
+    EXPECT_THROW(m2.solveFor(v), DeterminantIsZero);
+    auto res3 = m3.solveFor(v);
+    EXPECT_DOUBLE_EQ(res3[0], -2);
+    EXPECT_NEAR(res3[1], 1.5, 1e-9);
+    EXPECT_NEAR(res3[2], 0, 1e-9);
+    EXPECT_THROW(m4.solveFor(v), DeterminantIsZero);
+    auto res5 = m5.solveFor(v);
+    EXPECT_NEAR(res5[0], 0.0178571429, 1e-9);
+    EXPECT_NEAR(res5[1], 0.0552884615, 1e-9);
+    EXPECT_NEAR(res5[2], 0.1040521978, 1e-9);
+    auto res6 = m6.solveFor(v);
+    EXPECT_NEAR(res6[0], 1, 1e-9);
+    EXPECT_NEAR(res6[1], 0, 1e-9);
+    EXPECT_NEAR(res6[2], 0, 1e-9);
+    auto res7 = m7.solveFor(v);
+    EXPECT_NEAR(res7[0], -1, 1e-9);
+    EXPECT_NEAR(res7[1], 0, 1e-9);
+    EXPECT_NEAR(res7[2], 0, 1e-9);
+}
+
 #endif

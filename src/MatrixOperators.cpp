@@ -44,7 +44,7 @@ Matrix<T> operator*(const V& scalar, const Matrix<T>& matrix) noexcept{
 //division by scalar
 template<typename T, typename U>
 Matrix<T> Matrix<T, U>::operator/(const T &scalar) const{
-    if(scalar == 0) throw MatrixDevisionZero();
+    if(scalar == 0) throw MatrixDivisionZero();
     Matrix<T> res(numRows, numCols);
     for(size_t j = 0; j < numRows; j++){
         for(size_t i = 0; i < numCols; i++){

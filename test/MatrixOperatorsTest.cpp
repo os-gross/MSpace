@@ -20,7 +20,7 @@ TEST_F(MatrixTest, MatrixOperationsScalar){
     EXPECT_EQ((m1 * 2).getMatrix(), v_expected);    
     EXPECT_EQ((2 * m1).getMatrix(), v_expected);
     EXPECT_EQ(m1 / (-1), m2);
-    EXPECT_THROW(m1 / 0, MatrixDevisionZero);
+    EXPECT_THROW(m1 / 0, MatrixDivisionZero);
 }
 
 TEST_F(MatrixTest, MatrixNegation){
