@@ -6,20 +6,20 @@
 template<typename T, typename U>
 bool Matrix<T, U>::operator== (const Matrix<T> &another) const noexcept{
     return M == another.getMatrix();
-};
+}
 //not equals
 template<typename T, typename U>
 bool Matrix<T, U>::operator!= (const Matrix<T> &another) const noexcept{
     return M != another.getMatrix();
-};
+}
 //assignment
 template<typename T, typename U>
-Matrix<T>& Matrix<T, U>::operator= (const Matrix<T> &another) noexcept{
+Matrix<T, U>& Matrix<T, U>::operator= (const Matrix<T> &another) noexcept{
     if(another != *this){
         numRows = another.numRows;
         numCols = another.numCols;
         M = another.getMatrix();
-    };
+    }
     return *this;
 }
 //multiplication by scalar M * n
@@ -69,16 +69,14 @@ template<typename T, typename U>
 std::vector<T> Matrix<T, U>::operator[](const int &n) const{
     if( n < 0 || n >= numRows) throw RowIndexOutOfRange();
     return M[n];
-};
-
+}
 
 template<typename T, typename U>
 T& Matrix<T, U>::operator()(const int &i, const int &j){
     if(i < 0 || i >= numRows) throw RowIndexOutOfRange();
     if(j < 0 || j >= numCols) throw ColumnIndexOutOfRange();
     return M[i][j];
-};
-
+}
 //addtion of two matrices
 template<typename T, typename U>
 Matrix<T> Matrix<T, U>::operator+ (const Matrix<T> &another) const{
@@ -97,7 +95,7 @@ Matrix<T> Matrix<T, U>::operator+ (const Matrix<T> &another) const{
 template<typename T, typename U>
 Matrix<T> Matrix<T, U>::operator- (const Matrix<T> &another) const{
     return (*this) + (-another);
-};
+}
 //multiplication of two matrices
 template<typename T, typename U>
 Matrix<T> Matrix<T, U>::operator* (const Matrix<T> &another) const{
@@ -112,5 +110,5 @@ Matrix<T> Matrix<T, U>::operator* (const Matrix<T> &another) const{
         }
     }
     return res;
-};
+}
 #endif
