@@ -27,6 +27,12 @@ public:
         return "The sizes of the matrices do not match. Impossible to perform operation on matrices with different sizes.";
     }
 };
+class VectorSizeMissmatch : public std::exception {
+public:
+    [[nodiscard]] const char* what() const noexcept override {
+        return " Impossible to perform the action. Vector size does not match matrix size.";
+    }
+};
 class MatrixDivisionZero : public std::exception {
 public:
     [[nodiscard]] const char* what() const noexcept override {

@@ -100,6 +100,30 @@ TEST_F(MatrixTest, MatrixSet){
   EXPECT_THROW(m1.set(-2, 0, 12), RowIndexOutOfRange);
   EXPECT_THROW(m1.set(0, -2, 12), ColumnIndexOutOfRange);
 }
+TEST_F(MatrixTest, MatrixSetRow){
+  Matrix<float> m1(v1);
+  std::vector<float> v = {0, 0, 1};
+  std::vector<float> u = {0, 0, 1, 4};
+  m1.setRow(2, v);
+
+  EXPECT_EQ(m1[2][0], 0);
+  EXPECT_EQ(m1[2][1], 0);
+  EXPECT_EQ(m1[2][2], 1);
+  EXPECT_THROW(m1.setRow(-2, v), RowIndexOutOfRange);
+  EXPECT_THROW(m1.setRow(2, u), VectorSizeMissmatch);
+}
+TEST_F(MatrixTest, MatrixSetColumn){
+  Matrix<float> m1(v1);
+  std::vector<float> v = {0, 0, 1};
+  std::vector<float> u = {0, 0, 1, 4};
+  m1.setColumn(2, v);
+  EXPECT_EQ(m1[0][2], 0);
+  EXPECT_EQ(m1[1][2], 0);
+  EXPECT_EQ(m1[2][2], 1);
+  EXPECT_THROW(m1.setColumn(-2, v), ColumnIndexOutOfRange);
+  EXPECT_THROW(m1.setColumn(2, u), VectorSizeMissmatch);
+}
+
 
 
 

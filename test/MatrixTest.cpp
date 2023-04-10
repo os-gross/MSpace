@@ -247,5 +247,56 @@ TEST_F(MatrixTest, MatrixSolveFor){
     EXPECT_NEAR(res7[1], 0, 1e-9);
     EXPECT_NEAR(res7[2], 0, 1e-9);
 }
+TEST_F(MatrixTest, MatrixInverse){
+    Matrix<double> m1(v1), m2(v2), m3(v3), m5(v5), m6(v6), m7(v7);
+    EXPECT_THROW(m1.inverse(), DeterminantIsZero);
+    EXPECT_THROW(m2.inverse(), DeterminantIsZero);
+    auto res3 = m3.inverse();
+    EXPECT_EQ(m3.getNumRows(), res3.getNumRows());
+    EXPECT_EQ(m3.getNumCols(), res3.getNumCols());
+    EXPECT_NEAR(res3[0][0], -2, 1e-9);
+    EXPECT_NEAR(res3[0][1], 0.7333333333, 1e-9);
+    EXPECT_NEAR(res3[0][2], 0.2666666667, 1e-9);
+    EXPECT_NEAR(res3[1][0], 1.5, 1e-9);
+    EXPECT_NEAR(res3[1][1], -0.3222222222, 1e-9);
+    EXPECT_NEAR(res3[1][2], -0.1777777778, 1e-9);
+    EXPECT_NEAR(res3[2][0],  0, 1e-9);
+    EXPECT_NEAR(res3[2][1], -0.0074074074, 1e-9);
+    EXPECT_NEAR(res3[2][2],  0.0074074074, 1e-9);
+    m3.addRow(0);
+    EXPECT_THROW(m3.inverse(), MatrixNotSquared);
+    auto res5 = m5.inverse();
+    EXPECT_NEAR(res5[0][0],  0.0178571429, 1e-9);
+    EXPECT_NEAR(res5[0][1],  0.0089285714, 1e-9);
+    EXPECT_NEAR(res5[0][2], -0.0178571429, 1e-9);
+    EXPECT_NEAR(res5[1][0],  0.0552884615, 1e-9);
+    EXPECT_NEAR(res5[1][1], -0.0012019231, 1e-9);
+    EXPECT_NEAR(res5[1][2],  0.15625, 1e-9);
+    EXPECT_NEAR(res5[2][0],  0.1040521978, 1e-9);
+    EXPECT_NEAR(res5[2][1],  0.0039491758, 1e-9);
+    EXPECT_NEAR(res5[2][2], -0.0848214286, 1e-9);
+    auto res6 = m6.inverse();
+    EXPECT_NEAR(res6[0][0], 1, 1e-9);
+    EXPECT_NEAR(res6[0][1], 0, 1e-9);
+    EXPECT_NEAR(res6[0][2], 0, 1e-9);
+    EXPECT_NEAR(res6[1][0], 0, 1e-9);
+    EXPECT_NEAR(res6[1][1], 0, 1e-9);
+    EXPECT_NEAR(res6[1][2], 1, 1e-9);
+    EXPECT_NEAR(res6[2][0], 0, 1e-9);
+    EXPECT_NEAR(res6[2][1], 1, 1e-9);
+    EXPECT_NEAR(res6[2][2], 0, 1e-9);
+    auto res7 = m7.inverse();
+    EXPECT_NEAR(res7[0][0],-1, 1e-9);
+    EXPECT_NEAR(res7[0][1], 0, 1e-9);
+    EXPECT_NEAR(res7[0][2], 0, 1e-9);
+    EXPECT_NEAR(res7[1][0], 0, 1e-9);
+    EXPECT_NEAR(res7[1][1],-1, 1e-9);
+    EXPECT_NEAR(res7[1][2], 0, 1e-9);
+    EXPECT_NEAR(res7[2][0], 0, 1e-9);
+    EXPECT_NEAR(res7[2][1], 0, 1e-9);
+    EXPECT_NEAR(res7[2][2],-1, 1e-9);
+}
+
+
 
 #endif

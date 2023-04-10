@@ -96,7 +96,7 @@ std::vector<T> Matrix<T,U>::getColumn(const int &index)const{
     for(size_t i = 0; i < numRows; i++){
         res.push_back(M[i][index]);
     }
-    return std::move(res);
+    return res;
 
 }
 template<typename T, typename U>
@@ -107,7 +107,7 @@ std::vector<T> Matrix<T,U>::getDiagonal()const noexcept{
     for(size_t i = 0; i < min; i++){
        res.push_back(M[i][i]);
     }
-    return std::move(res);
+    return res;
 }
 
 template<typename T, typename U> 
@@ -132,9 +132,27 @@ Matrix<T> Matrix<T,U>::getSubMatrix(const int &i1, const int &j1,const int &i2, 
 
 // Setters
 template<typename T, typename U>
-void Matrix<T, U>::set(const int &i, const int &j, const T &newValue){
+Matrix<T>& Matrix<T, U>::set(const int &i, const int &j, const T &newValue){
     if(i < 0 || i >= numRows) throw RowIndexOutOfRange();
     if(j < 0 || j >= numCols) throw ColumnIndexOutOfRange();
-    M[i][j] = newValue;    
+    M[i][j] = newValue;
+    return *this;
 }
+
+template<typename T, typename U>
+Matrix<T>& Matrix<T, U>::setRow(const int &index, const std::vector<T> &v){
+    if(index < 0 || index >= numRows) throw RowIndexOutOfRange();
+    if( v.size() != numCols) throw VectorSizeMissmatch();
+    for(size_t i = 0; i < numCols; i++) set(index, i, v[i]);
+    return *this;
+}
+
+template<typename T, typename U>
+Matrix<T>& Matrix<T, U>::setColumn(const int &index, const std::vector<T> &v){
+    if(index < 0 || index >= numCols) throw ColumnIndexOutOfRange();
+    if(v.size() != numRows) throw VectorSizeMissmatch();
+    for(size_t i = 0; i < numRows; i++) set(i, index, v[i]);
+    return *this;
+}
+
 #endif

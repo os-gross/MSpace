@@ -35,7 +35,9 @@ public:
     std::vector<T> getDiagonal() const noexcept;
     Matrix<T> getSubMatrix(const int &i1, const int &j1, const int &i2, const int &j2)const;
     //Setters
-    void set(const int &i, const int &j, const T &newValue);
+    Matrix<T>& set(const int &i, const int &j, const T &newValue);
+    Matrix<T>& setRow(const int &index, const std::vector<T> &v);
+    Matrix<T>& setColumn(const int &index, const std::vector<T> &v);
     //Operators
     bool operator== (const Matrix<T> &another) const noexcept;//equals
     bool operator!= (const Matrix<T> &another) const noexcept;//not equals
@@ -71,6 +73,7 @@ public:
 
     TripleDecomposition<T> LUDecompose() const;
     T determinant() const noexcept;
+    [[nodiscard]] Matrix<T> inverse() const;
 
     std::vector<T> solveFor(const std::vector<T> &v) const;
 

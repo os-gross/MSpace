@@ -34,7 +34,7 @@ Matrix<T> Matrix<T, U>::operator*(const V &scalar) const noexcept{
         }
     }
 
-    return std::move(res);
+    return res;
 }
 //multiplication by scalar n * M
 template<typename V, typename T>
@@ -51,7 +51,7 @@ Matrix<T> Matrix<T, U>::operator/(const T &scalar) const{
             res.set(i, j, M[i][j] / static_cast<T>(scalar));
         }
     }
-    return std::move(res);
+    return res;
 }
 //negation
 template<typename T, typename U>
@@ -62,7 +62,7 @@ Matrix<T> Matrix<T, U>::operator-()const noexcept{
             res.set(i, j, -M[i][j]);
         }
     }
-    return std::move(res);
+    return res;
 }
 // index operator
 template<typename T, typename U>
@@ -89,7 +89,7 @@ Matrix<T> Matrix<T, U>::operator+ (const Matrix<T> &another) const{
             res.set(i, j, M[i][j] + another[i][j]);
         }
     }
-    return std::move(res);
+    return res;
 }
 //substraction of two matrices
 template<typename T, typename U>

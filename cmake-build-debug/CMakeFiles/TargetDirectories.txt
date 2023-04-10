@@ -1,5 +1,0 @@
-/home/stashko/projects/matrix/cmake-build-debug/CMakeFiles/matrix.dir
-/home/stashko/projects/matrix/cmake-build-debug/CMakeFiles/test.dir
-/home/stashko/projects/matrix/cmake-build-debug/CMakeFiles/run_test.dir
-/home/stashko/projects/matrix/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/stashko/projects/matrix/cmake-build-debug/CMakeFiles/rebuild_cache.dir
