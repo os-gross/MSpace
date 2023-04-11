@@ -159,34 +159,40 @@ TripleDecomposition<T> Matrix<T, U>::LUDecompose() const{
     const int n = numRows;
     Matrix<T> upper(*this);
     Matrix<T> lower(n);
-    Matrix<T> P(n);
+    Matrix<T> permutation(n);
     lower.makeIdentity();
-    P.makeIdentity();
+    permutation.makeIdentity();
     for (size_t i = 0; i < n; i++){
-        if(upper[i][i] == 0){
-            int maxRow = static_cast<int>(i);
-            T maxValue = upper[i][i];
+        if(upper[i][i] == 0){ // if pivot equals zero, we swap the rows
+            int maxRow = static_cast<int>(i); // take initial row
+            T maxValue = upper[i][i];         // take pivot's value
             for(size_t j = i + 1; j < n; j++ ){
-                T val = abs(upper[j][i]);
-                if(val > maxValue){
+                T val = abs(upper[j][i]);   
+                if(val > maxValue){         // swap rowf if row with bigger value is found
                     maxValue = val;
                     maxRow = static_cast<int>(j);
                 }
             }
-            if(maxRow != i ){
-                upper.swapRows(maxRow, i);
-                P.swapRows(maxRow, i);
+            if(maxRow != i ){ // if i == maxRow don't swap.
+                upper.swapRows(maxRow, i);// swap rows in upper matrix
+                permutation.swapRows(maxRow, i); // swap rows in permutaion matrix
+                for(size_t j = 0; j < i; j++){ // swap values(!!!) in lower matrix
+                    T temp = lower[maxRow][j];
+                    lower(maxRow, j) = lower[i][j];
+                    lower(i, j) = temp;
+                }
+                    
             }
         }
         for(size_t j = i + 1; j < n; j++){
             T value = upper[j][i]/upper[i][i];
             lower(j, i) = value;
             for(size_t k = 0; k < n; k++){
-                upper(j ,k) = upper[j][k] - value*upper[i][k];
+                upper(j ,k) -= value*upper[i][k];
             }
         }
     }
-    TripleDecomposition<T> res{lower, P, upper};
+    TripleDecomposition<T> res{lower, permutation, upper};
     return res;
 }
 template<typename T, typename U>
@@ -255,7 +261,7 @@ Matrix<T> Matrix<T, U>::inverse() const{
             for(size_t j = 0; j < i; j++) 
                 sum += y[j] * lower[i][j];
         
-            if(lower[i][i] == 0)
+            if(abs(lower[i][i]) < static_cast<T>(1e-15))
                 throw DeterminantIsZero();
             y[i] = (v[i] - sum)/lower[i][i];
         }
@@ -263,7 +269,7 @@ Matrix<T> Matrix<T, U>::inverse() const{
             T sum = 0;
             for(int j = n - 1; j >= i; j--) 
                 sum += x[j] * upper[i][j];  
-            if(upper[i][i] == 0)
+            if(upper[i][i] < static_cast<T>(1e-15))
                 throw DeterminantIsZero();
             x[i] = (y[i] - sum)/upper[i][i];
         }

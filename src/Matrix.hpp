@@ -87,8 +87,5 @@ public:
     }
 };
 
-#include "MatrixOperators.cpp"
-#include "MatrixAccessors.cpp"
 #include "MatrixLibrary.hpp"
-#include "Matrix.cpp"
 #endif

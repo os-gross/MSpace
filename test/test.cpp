@@ -1,6 +1,9 @@
 #include <gtest/gtest.h>
 #include <vector>
 #include "../src/Matrix.hpp"
+#include "../src/Matrix.cpp"
+#include "../src/MatrixOperators.cpp"
+#include "../src/MatrixAccessors.cpp"
 
 
 class MatrixTest : public ::testing::Test {
