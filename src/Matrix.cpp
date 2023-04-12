@@ -97,6 +97,14 @@ Matrix<T>& Matrix<T, U>::swapColumns(const int &first_index, const int &second_i
     return *this;
 }
 template<typename T, typename U>
+Matrix<T>& Matrix<T, U>::applyFunction(T (*func)(T)){
+    for(size_t i = 0; i < numRows; i++){
+        for(size_t j =0; j < numCols; j++)
+            M[i][j] = func(M[i][j]);
+    }
+    return *this;
+}
+template<typename T, typename U>
 Matrix<T>& Matrix<T, U>::makeIdentity() noexcept {
     for(size_t i = 0; i < numRows; i++){
         for(size_t j = 0; j < numCols; j++) 

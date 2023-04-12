@@ -63,6 +63,7 @@ public:
     Matrix<T>& resize(const int &newNumRows, const int& newNumCols, const int &n = 0);
     Matrix<T>& swapRows(const int &first_index, const int &second_index);
     Matrix<T>& swapColumns(const int &first_index, const int &second_index);
+    Matrix<T>& applyFunction(T (*func)(T));
     Matrix<T>& makeIdentity() noexcept;
     Matrix<T>& transpose() noexcept;
 

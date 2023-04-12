@@ -194,6 +194,24 @@ TEST_F(MatrixTest, MatrixisIdentity){
     EXPECT_TRUE(m1.isIdentity());
     EXPECT_FALSE(m2.isIdentity());
 }
+
+float square(float number){
+    return number * number;
+}
+TEST_F(MatrixTest, MatrixisApplyFunction){
+    Matrix<float> m(v1);
+    m.applyFunction(square);
+    EXPECT_EQ(m[0][0], 1);
+    EXPECT_EQ(m[0][1], 4);
+    EXPECT_EQ(m[0][2], 9);
+    EXPECT_EQ(m[1][0], 16);
+    EXPECT_EQ(m[1][1], 25);
+    EXPECT_EQ(m[1][2], 36);
+    EXPECT_EQ(m[2][0], 49);
+    EXPECT_EQ(m[2][1], 64);
+    EXPECT_EQ(m[2][2], 81);
+}
+
 TEST_F(MatrixTest, MatrixisTriangle){
     Matrix<float> m1(v1);
     auto res = m1.LUDecompose();
@@ -239,10 +257,10 @@ TEST_F(MatrixTest, MatrixSolveFor){
     EXPECT_NEAR(res7[2], 0, 1e-9);
 }
 TEST_F(MatrixTest, MatrixInverse){
-    const int count = 1000;
+    const int count = 1'000;
     const int dimension = 10;
-    const int range = 10;
-    const int shift = 5;
+    const int range = 1000;
+    const int shift = 500;
     srand(time(NULL));
     for(int k = 0; k < count; k++ ){
         std::vector<std::vector<double>> v;

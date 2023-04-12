@@ -83,9 +83,4 @@ TEST_F(MatrixTest, MatrixMultiplication){
     Matrix<float> m3(u);
     EXPECT_THROW(m3* m1, MatrixSizeMismatchException);
 }
-
-
-
-
-
 #endif
