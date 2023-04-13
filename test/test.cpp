@@ -4,6 +4,7 @@
 #include "../src/Matrix.cpp"
 #include "../src/MatrixOperators.cpp"
 #include "../src/MatrixAccessors.cpp"
+#include "../src/MatrixAlgorithms.cpp"
 
 
 class MatrixTest : public ::testing::Test {

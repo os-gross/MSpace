@@ -1,6 +1,3 @@
-#ifndef M_OPERATORS_CPP
-#define M_OPERATORS_CPP
-
 #include "Matrix.hpp"
 //equals
 template<typename T, typename U>
@@ -111,4 +108,3 @@ Matrix<T> Matrix<T, U>::operator* (const Matrix<T> &another) const{
     }
     return res;
 }
-#endif

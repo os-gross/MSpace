@@ -1,6 +1,3 @@
-#ifndef M_ACCESSORS_TEST_CPP
-#define M_ACCESSORS_TEST_CPP
-
 TEST_F(MatrixTest, DefaultConstructorThrowsException){
   EXPECT_THROW(Matrix<float> (-3), MatrixNegativeSize);
   EXPECT_THROW(Matrix<float> (2, -3), MatrixNegativeSize);
@@ -123,8 +120,3 @@ TEST_F(MatrixTest, MatrixSetColumn){
   EXPECT_THROW(m1.setColumn(-2, v), ColumnIndexOutOfRange);
   EXPECT_THROW(m1.setColumn(2, u), VectorSizeMissmatch);
 }
-
-
-
-
-#endif

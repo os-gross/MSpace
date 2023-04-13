@@ -1,6 +1,3 @@
-#ifndef M_ACCESSORS_CPP
-#define M_ACCESSORS_CPP
-
 #include "Matrix.hpp"
 
 template<typename T, typename U>
@@ -154,5 +151,3 @@ Matrix<T>& Matrix<T, U>::setColumn(const int &index, const std::vector<T> &v){
     for(size_t i = 0; i < numRows; i++) set(i, index, v[i]);
     return *this;
 }
-
-#endif

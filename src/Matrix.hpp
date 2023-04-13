@@ -52,8 +52,8 @@ public:
     Matrix<T> operator- (const Matrix<T> &another) const;//subtraction
     Matrix<T> operator* (const Matrix<T> &another) const;//multiplication
 
-    Matrix<T>& removeColumn(const int &index);
     Matrix<T>& removeRow(const int &index);
+    Matrix<T>& removeColumn(const int &index);
     template<typename V>
     Matrix<T>& addRow(const std::vector<V> &v, const int &times = 1);
     Matrix<T>& addRow(const int &n = 0, const int &times = 1);
@@ -63,9 +63,11 @@ public:
     Matrix<T>& resize(const int &newNumRows, const int& newNumCols, const int &n = 0);
     Matrix<T>& swapRows(const int &first_index, const int &second_index);
     Matrix<T>& swapColumns(const int &first_index, const int &second_index);
-    Matrix<T>& applyFunction(T (*func)(T));
     Matrix<T>& makeIdentity() noexcept;
+    Matrix<T>& applyFunction(T (*func)(T));
     Matrix<T>& transpose() noexcept;
+    Matrix<T>& mergeVertically(const Matrix<T> &another);
+    Matrix<T>& mergeHorizontally(const Matrix<T> &another);
 
     [[nodiscard]] bool isIdentity() const noexcept;
     [[nodiscard]] bool isUpperTriangle() const noexcept;
@@ -74,9 +76,8 @@ public:
 
     TripleDecomposition<T> LUDecompose() const;
     T determinant() const noexcept;
-    [[nodiscard]] Matrix<T> inverse() const;
-
     std::vector<T> solveFor(const std::vector<T> &v) const;
+    [[nodiscard]] Matrix<T> inverse() const;
 
     void print() const{
         for(size_t i = 0; i < numRows; i++){

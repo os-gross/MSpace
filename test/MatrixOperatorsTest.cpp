@@ -1,6 +1,3 @@
-#ifndef M_OPERATORS_TEST_CPP
-#define M_OPERATORS_TEST_CPP
-
 TEST_F(MatrixTest, MatrixEqual){
     Matrix<float> m1(v1);
     Matrix<float> m1_copy(v1);
@@ -83,4 +80,3 @@ TEST_F(MatrixTest, MatrixMultiplication){
     Matrix<float> m3(u);
     EXPECT_THROW(m3* m1, MatrixSizeMismatchException);
 }
-#endif
