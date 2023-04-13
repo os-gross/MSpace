@@ -55,6 +55,7 @@ protected:
 #include "MatrixAccessorsTest.cpp"
 #include "MatrixOperatorsTest.cpp"
 #include "MatrixTest.cpp"
+#include "MatrixAlgorithmsTest.cpp"
 
 
 

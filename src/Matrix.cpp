@@ -128,6 +128,7 @@ Matrix<T>& Matrix<T, U>::transpose() noexcept{
             temp(j, i) = M[i][j];
     }
     *this = temp;
+    return *this;
 }
 
 template<typename T, typename U>
@@ -146,6 +147,44 @@ Matrix<T>& Matrix<T, U>::mergeHorizontally(const Matrix<T> &another){
     return *this;
 }
 
+
+template<typename T, typename U>
+bool Matrix<T, U>::isSquare() const noexcept{
+    if(numRows == 0 || numCols == 0) return false;
+    return numCols == numRows;
+}
+
+template<typename T, typename U>
+bool Matrix<T, U>::isDiagonal() const noexcept{
+    if(!isSquare()) return false;
+    for(size_t i = 0; i < numRows; i++){
+        for(size_t j = 0; j < numCols; j++){
+            if(i == j && M[i][j] == 0) return false;
+            if(i != j && M[i][j] != 0) return false;
+        }
+    }
+    return true;
+}
+
+template<typename T, typename U>
+bool Matrix<T, U>::isScalar() const noexcept{
+    if(!isDiagonal()) return false;
+    if(numRows == 1 && M[0][0] != 0) return true; 
+    for(size_t i = 1; i < numRows; i++){
+        if(M[i][i] != M[i-1][i-1]) return false;
+    }
+    return true;
+}
+
+template<typename T, typename U>
+bool Matrix<T, U>::isZero() const noexcept{
+    for(size_t i = 0; i < numRows; i++){
+        for(size_t j = 0; j < numCols; j++){
+            if(M[i][j] != 0) return false;
+        }
+    }
+    return true;
+}
 
 template<typename T, typename U>
 bool Matrix<T, U>::isIdentity() const noexcept{
@@ -183,4 +222,25 @@ bool Matrix<T, U>::isLowerTriangle() const noexcept {
 template<typename T, typename U>
 bool Matrix<T, U>::isTriangle() const noexcept{
     return isUpperTriangle() || isLowerTriangle();
+}
+
+template<typename T, typename U>
+bool Matrix<T, U>::isSymmetric() const noexcept{
+    if(!isSquare()) return false;
+    for(size_t i = 0; i < numRows; i++){
+        for(size_t j = i; j < numCols; j++){
+            if(M[i][j] != M[j][i]) return false;
+        }
+    }
+    return true;
+}
+
+template<typename T, typename U>
+bool Matrix<T, U>::isOrthogonal() const noexcept{
+    if(!isSquare()) return false;
+    Matrix<T> copy = *this;
+    Matrix<T> identity(numRows);
+    copy.transpose();
+    identity.makeIdentity();
+    return (copy * *this) == identity;
 }

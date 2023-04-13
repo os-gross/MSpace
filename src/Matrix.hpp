@@ -69,10 +69,16 @@ public:
     Matrix<T>& mergeVertically(const Matrix<T> &another);
     Matrix<T>& mergeHorizontally(const Matrix<T> &another);
 
+    [[nodiscard]] bool isSquare() const noexcept;
+    [[nodiscard]] bool isDiagonal() const noexcept;
+    [[nodiscard]] bool isScalar() const noexcept;
+    [[nodiscard]] bool isZero() const noexcept;
     [[nodiscard]] bool isIdentity() const noexcept;
     [[nodiscard]] bool isUpperTriangle() const noexcept;
     [[nodiscard]] bool isLowerTriangle() const noexcept;
     [[nodiscard]] bool isTriangle() const noexcept;
+    [[nodiscard]] bool isSymmetric() const noexcept;
+    [[nodiscard]] bool isOrthogonal() const noexcept;
 
     TripleDecomposition<T> LUDecompose() const;
     T determinant() const noexcept;

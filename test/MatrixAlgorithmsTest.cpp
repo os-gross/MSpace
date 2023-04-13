@@ -1,5 +1,3 @@
-#include "test.cpp"
-
 TEST_F(MatrixTest, MatrixLUDecomposition){
     const int count = 1000;
     const int dimension = 5;
@@ -58,8 +56,8 @@ TEST_F(MatrixTest, MatrixSolveFor){
     EXPECT_NEAR(res7[2], 0, 1e-9);
 }
 TEST_F(MatrixTest, MatrixInverse){
-    const int count = 1'00;
-    const int dimension = 100;
+    const int count = 1'000;
+    const int dimension = 5;
     const int range = 1000;
     const int shift = 500;
     srand(time(NULL));

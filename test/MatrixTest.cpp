@@ -213,6 +213,31 @@ TEST_F(MatrixTest, MatrixMerge){
     EXPECT_THROW(m5.mergeHorizontally(m6), MatrixSizeMismatchException);
 }
 
+TEST_F(MatrixTest, MatrixIsSquare){
+    Matrix<double> m(5);
+    Matrix<double> z(3, 2);
+    EXPECT_TRUE(m.isSquare());
+    EXPECT_FALSE(z.isSquare());
+}
+TEST_F(MatrixTest, MatrixIsDiagonal){
+    Matrix<double> m(5);
+    EXPECT_FALSE(m.isDiagonal());
+    m.makeIdentity();
+    EXPECT_TRUE(m.isDiagonal());
+}
+
+TEST_F(MatrixTest, MatrixIsScalar){
+    Matrix<double> m(5);
+    EXPECT_FALSE(m.isScalar());
+    m.makeIdentity();
+    EXPECT_TRUE(m.isScalar());
+}
+TEST_F(MatrixTest, MatrixIsZero){
+    Matrix<double> m(5);
+    EXPECT_TRUE(m.isZero());
+    m.makeIdentity();
+    EXPECT_FALSE(m.isZero());
+}
 
 TEST_F(MatrixTest, MatrixIsTriangle){
     Matrix<float> m1(v1);
@@ -223,4 +248,18 @@ TEST_F(MatrixTest, MatrixIsTriangle){
     EXPECT_FALSE(res.second.isLowerTriangle());
     EXPECT_TRUE(res.second.isUpperTriangle());
     EXPECT_TRUE(res.second.isTriangle());
+}
+
+TEST_F(MatrixTest, MatrixIsSymmetric){
+    Matrix<double> m(5);
+    m = 5 * m.makeIdentity().set(1, 2, 10).set(2,1,10);
+    EXPECT_TRUE(m.isSymmetric());
+    m.set(3,2, -5);
+    EXPECT_FALSE(m.isSymmetric());
+}
+TEST_F(MatrixTest, MatrixIsOrthogonal){
+    Matrix<double> m(3);
+    EXPECT_FALSE(m.isOrthogonal());
+    m.set(0, 0, -1).set(1,1,-1).set(2,2,-1);
+    EXPECT_TRUE(m.isOrthogonal());
 }
