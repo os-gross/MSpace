@@ -120,3 +120,10 @@ TEST_F(MatrixTest, MatrixSetColumn){
   EXPECT_THROW(m1.setColumn(-2, v), ColumnIndexOutOfRange);
   EXPECT_THROW(m1.setColumn(2, u), VectorSizeMissmatch);
 }
+
+TEST_F(MatrixTest, MatrixSettolerance){
+  Matrix<float> m1(v1);
+  m1.setTolerance(2);
+  EXPECT_EQ(m1.getTolerance(), 2);
+  EXPECT_THROW(m1.setTolerance(-0.001), NegativeTolerance);
+}

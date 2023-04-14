@@ -2,7 +2,13 @@
 //equals
 template<typename T, typename U>
 bool Matrix<T, U>::operator== (const Matrix<T> &another) const noexcept{
-    return M == another.getMatrix();
+    if(numRows != another.getNumRows()) return false;
+    if(numCols != another.getNumCols()) return false;
+    for(size_t i = 0; i < numRows; i++){
+        for(size_t j = 0; j < numCols; j++)
+            if(std::abs(M[i][j] - another[i][j]) >= tolerance) return false;
+    }
+    return true;
 }
 //not equals
 template<typename T, typename U>

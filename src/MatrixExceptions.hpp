@@ -58,4 +58,10 @@ public:
         return "The determinant equals zero. This means that the matrix does not have unique solutions and an inverse.";
     }
 };
+class NegativeTolerance : public std::exception{
+public:
+    [[nodiscard]] const char * what() const noexcept override{
+        return "Cannot change tolerance value. Passed value is negative.";
+    }
+};
 #endif

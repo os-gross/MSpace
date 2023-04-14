@@ -67,6 +67,11 @@ size_t Matrix<T, U>::getNumCols() const noexcept{
 }
 
 template <typename T, typename U>
+T Matrix<T, U>::getTolerance() const noexcept{
+    return tolerance;
+}
+
+template <typename T, typename U>
 T Matrix<T, U>::get(int i, int j) const {
     if(i < 0 || i >= numRows) throw RowIndexOutOfRange();
     if(j < 0 || j >= numCols) throw ColumnIndexOutOfRange();
@@ -149,5 +154,12 @@ Matrix<T>& Matrix<T, U>::setColumn(const int &index, const std::vector<T> &v){
     if(index < 0 || index >= numCols) throw ColumnIndexOutOfRange();
     if(v.size() != numRows) throw VectorSizeMissmatch();
     for(size_t i = 0; i < numRows; i++) set(i, index, v[i]);
+    return *this;
+}
+
+template<typename T, typename U>
+Matrix<T>& Matrix<T, U>::setTolerance(const T &newTolerance){
+    if(newTolerance < 0) throw NegativeTolerance();
+    tolerance = newTolerance;
     return *this;
 }

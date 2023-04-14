@@ -17,6 +17,8 @@ private:
         size_t numRows;
         size_t numCols;
         std::vector<std::vector<T>> M;
+
+        T tolerance = static_cast<T>(1e-9);
 public:
     explicit Matrix(const int &num);
     Matrix(const int &newNumRows, const int &newNumCols);
@@ -28,6 +30,7 @@ public:
     //getters
     [[nodiscard]] size_t getNumRows() const noexcept;
     [[nodiscard]] size_t getNumCols() const noexcept;
+    [[nodiscard]] T getTolerance() const noexcept;
     T get(int i, int j) const;
     std::vector<std::vector<T>> getMatrix() const noexcept;
     std::vector<T> getColumn(const int &index)const;
@@ -38,8 +41,9 @@ public:
     Matrix<T>& set(const int &i, const int &j, const T &newValue);
     Matrix<T>& setRow(const int &index, const std::vector<T> &v);
     Matrix<T>& setColumn(const int &index, const std::vector<T> &v);
+    Matrix<T>& setTolerance(const T &newtolerance);
     //Operators
-    bool operator== (const Matrix<T> &another) const noexcept;//equals
+    bool operator==(const Matrix<T> &another) const noexcept;//equals
     bool operator!= (const Matrix<T> &another) const noexcept;//not equals
     Matrix& operator=(const Matrix<T> &another) noexcept;//assignment
     template<typename V>
