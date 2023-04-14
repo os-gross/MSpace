@@ -64,4 +64,16 @@ public:
         return "Cannot change tolerance value. Passed value is negative.";
     }
 };
+class MatrixFileNotFound : public std::exception{
+public:
+    [[nodiscard]] const char * what() const noexcept override{
+        return "File is not found. Cannot open the file.";
+    }
+};
+class MatrixFileIncorrectValue : public std::exception{
+public:
+    [[nodiscard]] const char * what() const noexcept override{
+        return "The values in the file is not correct. Impossible to store it in the matrix.";
+    }
+};
 #endif

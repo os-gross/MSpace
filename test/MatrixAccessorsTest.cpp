@@ -45,6 +45,29 @@ TEST_F(MatrixTest, MatrixCopyConstructor) {
   EXPECT_EQ(m1.get(2, 2), m2.get(2, 2));
 }
 
+TEST_F(MatrixTest, MatrixFileConstructor) {
+  std::ofstream file("test.txt");
+  file<<"1,2,3, -10\n4,5,6\n7,8,9";
+  file.close();
+  Matrix<float> m("test.txt");
+  EXPECT_EQ(m.getNumRows(), 3);
+  EXPECT_EQ(m.getNumCols(), 4);
+  EXPECT_EQ(m[0][0], 1);
+  EXPECT_EQ(m[0][1], 2);
+  EXPECT_EQ(m[0][2], 3);
+  EXPECT_EQ(m[0][3], -10);
+  EXPECT_EQ(m[1][0], 4);
+  EXPECT_EQ(m[1][1], 5);
+  EXPECT_EQ(m[1][2], 6);
+  EXPECT_EQ(m[1][3], 0);
+  EXPECT_EQ(m[2][0], 7);
+  EXPECT_EQ(m[2][1], 8);
+  EXPECT_EQ(m[2][2], 9);
+  EXPECT_EQ(m[2][3], 0);
+  remove("test.txt");
+  EXPECT_THROW(Matrix<int> m2("dont_exist.txt"), MatrixFileNotFound);
+}
+
 TEST_F(MatrixTest, MatrixGetMatrix){
   Matrix<float> m1(v1);
   EXPECT_EQ(m1.getMatrix(),v1);

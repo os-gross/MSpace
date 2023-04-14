@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <vector>
+#include <fstream> 
 #include "../src/Matrix.hpp"
 #include "../src/Matrix.cpp"
 #include "../src/MatrixOperators.cpp"

@@ -54,7 +54,39 @@ Matrix<T, U>::Matrix(const Matrix<V> &another) {
 
 template<typename T, typename U>
 Matrix<T, U>::Matrix(const std::string &fileName){
-    
+    std::ifstream inputFile(fileName);
+    if(!inputFile.is_open()) throw MatrixFileNotFound();
+
+    std::vector<std::string> arr;
+    std::string str;
+    while(std::getline(inputFile, str, '\n')){
+        arr.push_back(str);
+    }
+    int max = 0;
+    for(const auto &token: arr){
+        int tempMax = 0;
+        for(const char &c : token){
+            if(c == ',') tempMax++;
+        }
+        if(tempMax > max) max = tempMax;
+    }
+    this->numRows = arr.size();
+    this->numCols = max + 1;
+    M = std::vector<std::vector<T>>(numRows, std::vector<T>(numCols, 0));
+    for(size_t i = 0; i < arr.size(); i++){
+        int j = 0;
+        std::string token = arr[i];
+        std::stringstream ss(token);
+        while(std::getline(ss, str, ',')){
+            if(str.empty()) continue;
+            T value;
+            std::istringstream iss(str);
+            iss >> value;
+            M[i][j] = value;
+            j++;
+        }
+    }
+    inputFile.close();
 }
 //Destructor
 template<typename T, typename U>
