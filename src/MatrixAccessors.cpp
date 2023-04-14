@@ -52,6 +52,10 @@ Matrix<T, U>::Matrix(const Matrix<V> &another) {
     }
 }
 
+template<typename T, typename U>
+Matrix<T, U>::Matrix(const std::string &fileName){
+    
+}
 //Destructor
 template<typename T, typename U>
 Matrix<T, U>::~Matrix()= default;

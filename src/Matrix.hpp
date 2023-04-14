@@ -4,6 +4,7 @@
 #include <vector>
 #include <iostream>
 #include <cmath>
+#include <string>
 #include "MatrixExceptions.hpp"
 
 template<typename T>
@@ -27,6 +28,7 @@ public:
     template<typename V>
     explicit Matrix(const Matrix<V> &another);
     ~Matrix();
+    explicit Matrix(const std::string &fileName);
     //getters
     [[nodiscard]] size_t getNumRows() const noexcept;
     [[nodiscard]] size_t getNumCols() const noexcept;
