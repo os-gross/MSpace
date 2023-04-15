@@ -88,6 +88,8 @@ public:
     [[nodiscard]] bool isSymmetric() const noexcept;
     [[nodiscard]] bool isOrthogonal() const noexcept;
 
+    void saveInFile(const std::string &fileName) const;
+
     TripleDecomposition<T> LUDecompose() const;
     T determinant() const noexcept;
     std::vector<T> solveFor(const std::vector<T> &v) const;

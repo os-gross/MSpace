@@ -30,13 +30,11 @@ template<typename T, typename U>
 template<typename V>
 Matrix<T> Matrix<T, U>::operator*(const V &scalar) const noexcept{
     Matrix<T> res(numRows, numCols);
-
-    for(size_t j = 0; j < numRows; j++){
-        for(size_t i = 0; i < numCols; i++){
+    for(size_t i = 0; i < numRows; i++){
+        for(size_t j = 0; j < numCols; j++){
             res.set(i, j, M[i][j] * static_cast<T>(scalar));
         }
     }
-
     return res;
 }
 //multiplication by scalar n * M

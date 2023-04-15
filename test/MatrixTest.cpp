@@ -263,3 +263,15 @@ TEST_F(MatrixTest, MatrixIsOrthogonal){
     m.set(0, 0, -1).set(1,1,-1).set(2,2,-1);
     EXPECT_TRUE(m.isOrthogonal());
 }
+
+TEST_F(MatrixTest, MatrixSaveInFile){
+    Matrix<double> m(3, 4);
+    m.saveInFile("m.txt");
+    std::ifstream file("m.txt");
+    std::string str;
+    while(std::getline(file, str, '\n')){
+        EXPECT_EQ(str, "0,0,0,0");
+    }
+    file.close();
+    remove("m.txt");
+}

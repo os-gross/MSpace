@@ -244,3 +244,16 @@ bool Matrix<T, U>::isOrthogonal() const noexcept{
     identity.makeIdentity();
     return (copy * *this) == identity;
 }
+
+template<typename T, typename U>
+void Matrix<T, U>::saveInFile(const std::string &fileName) const{
+    std::ofstream os(fileName);
+    for(size_t i = 0; i < numRows; i++){
+        for(size_t j = 0; j < numCols; j++){
+            os << M[i][j];
+            if(j != numCols - 1) os<<',';
+        }
+        if(i != numRows - 1) os<<'\n';
+    }
+    os.close();
+}
