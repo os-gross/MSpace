@@ -102,15 +102,6 @@ public:
     int rank() const noexcept;
     std::vector<T> solveFor(const std::vector<T> &v) const;
     [[nodiscard]] Matrix<T> inverse() const;
-
-    void print() const{
-        for(size_t i = 0; i < numRows; i++){
-            for(size_t j = 0; j< numCols; j++){
-                std::cout<<M[i][j]<<" ";
-            }
-            std::cout<<std::endl;
-        }
-    }
 };
 
 #include "MatrixLibrary.hpp"
