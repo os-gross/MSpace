@@ -100,6 +100,37 @@ T Matrix<T, U>::determinant() const noexcept{
     }
     return triple.first.determinant() * triple.second.determinant();
 }
+
+template<typename T, typename U>
+int Matrix<T, U>::rank() const noexcept{
+    Matrix<T> copy(*this);
+    int rank = 0; 
+    int n = numRows;
+    int m = numCols;
+    for (int i = 0; i < n; i++) { 
+        if (rank >= m) break; 
+        if(copy[rank][i] == 0){
+            int swap_row = -1;
+            for(int j = rank + 1; j < m; j++){
+                if(copy[j][i] != 0){
+                    swap_row = j;
+                    break;
+                }
+            }
+            if(swap_row != -1) copy.swapRows(rank, swap_row);
+            else continue;
+        }
+        for (int j = rank + 1; j < m; j++) {
+            double ratio = copy[j][i] / copy[rank][i];
+            for (int k = 0; k < n; k++) 
+                copy(j,k) -= ratio * copy[rank][k];
+        }
+        rank++; 
+    }
+    return rank;
+}
+
+
 template<typename T, typename U>
 std::vector<T> Matrix<T, U>::solveFor(const std::vector<T> &v) const {
     if(numRows != numCols) throw MatrixNotSquared();

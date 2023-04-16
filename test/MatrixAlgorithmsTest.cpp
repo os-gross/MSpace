@@ -55,6 +55,18 @@ TEST_F(MatrixTest, MatrixSolveFor){
     EXPECT_NEAR(res7[1], 0, 1e-9);
     EXPECT_NEAR(res7[2], 0, 1e-9);
 }
+
+TEST_F(MatrixTest, MatrixRank){
+    Matrix<double> m1(v1), m2(v2), m3(v3), m4(v4), m5(v5), m6(v6), m7(v7);
+    EXPECT_EQ(m1.rank(), 2);
+    EXPECT_EQ(m2.rank(), 2);
+    EXPECT_EQ(m3.rank(), 3);
+    EXPECT_EQ(m4.rank(), 2);
+    EXPECT_EQ(m5.rank(), 3);
+    EXPECT_EQ(m6.rank(), 3);
+    EXPECT_EQ(m7.rank(), 3);
+}
+
 TEST_F(MatrixTest, MatrixInverse){
     const int count = 1'000;
     const int dimension = 5;

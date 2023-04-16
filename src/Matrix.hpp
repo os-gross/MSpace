@@ -99,6 +99,7 @@ public:
     TripleDecomposition<T> LUDecompose() const;
     DoubleDecomposition<T> QRDecompose() const;
     T determinant() const noexcept;
+    int rank() const noexcept;
     std::vector<T> solveFor(const std::vector<T> &v) const;
     [[nodiscard]] Matrix<T> inverse() const;
 
