@@ -62,14 +62,22 @@ T euclideanNorm(const std::vector<T> &v){
 template<typename T, typename U>
 DoubleDecomposition<T> Matrix<T, U>::QRDecompose() const{
     Matrix<T> Q(numRows);
-    Matrix<T> R(*this);
+    Matrix<T> R(numRows, numCols);
+    for(size_t i = 0; i < numCols; i++){;
+       std::vector<T> u_i = getColumn(i);
+       for(size_t j = 0; j < i; j++){
+            std::vector<T> e_i = Q.getColumn(j);
+            T product = dotProduct(u_i, e_i);
+            for(size_t k = 0; k < numRows; k++)
+                u_i[k] -= product * e_i[k];
+            R(j, i) = product;
+       }
 
-    for(size_t i = 0; i < numCols; i++){
-        std::cout<<"Q:\n";
-        Q.print();
-        std::cout<<"R:\n";
-        R.print();
-       
+       T norm = euclideanNorm(u_i);
+       if(norm == 0) throw MatrixDivisionZero();
+        for(size_t j = 0; j < numRows; j++)
+            Q(j, i) = u_i[j] / norm;
+        R(i, i) = dotProduct(Q.getColumn(i), u_i);
     }
     DoubleDecomposition<T> res{Q, R};
     return res;

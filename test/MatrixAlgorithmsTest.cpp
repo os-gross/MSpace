@@ -94,11 +94,38 @@ TEST_F(MatrixTest, MatrixInverse){
 
 
 TEST_F(MatrixTest, MatrixQRDecomposition){
-    Matrix<double> m(v1);
-    m.print();
-    auto res = m.QRDecompose();
-    std::cout<<"Q:\n";
-    res.first.print();
-    std::cout<<"R:\n";
-    res.second.print();
+    const int count = 1'000;
+    const int dimension = 5;
+    const int range = 1000;
+    const int shift = 500;
+    srand(time(NULL));
+    for(int k = 0; k < count; k++ ){
+        std::vector<std::vector<double>> v;
+        for(int i = 0; i < dimension; i++){ 
+            std::vector<double> temp;
+            for(int j = 0; j < dimension; j++){
+                temp.push_back(rand() % range - shift);
+            }
+            v.push_back(temp);
+        }
+        Matrix<double> m(v);
+        Matrix<double> Q(dimension);
+        Matrix<double> R(dimension);
+
+        bool exceptionCaugth = false;
+        try{
+            auto result = m.QRDecompose();
+            Q = result.first;
+            R = result.second;
+        } catch(DeterminantIsZero){
+            exceptionCaugth = true;
+        }
+        if(exceptionCaugth) continue;
+        auto res = Q*R;
+        for(size_t i = 0; i < m.getNumRows(); i++){
+            for(size_t j = 0; j < m.getNumCols(); j++){
+                ASSERT_NEAR(res[i][j], m[i][j], 1e-9);
+            }
+        }
+    }
 }
