@@ -91,3 +91,14 @@ TEST_F(MatrixTest, MatrixInverse){
         }
     }
 }
+
+
+TEST_F(MatrixTest, MatrixQRDecomposition){
+    Matrix<double> m(v1);
+    m.print();
+    auto res = m.QRDecompose();
+    std::cout<<"Q:\n";
+    res.first.print();
+    std::cout<<"R:\n";
+    res.second.print();
+}

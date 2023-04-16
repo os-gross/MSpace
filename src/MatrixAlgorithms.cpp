@@ -2,7 +2,7 @@
 
 template<typename T, typename U>
 TripleDecomposition<T> Matrix<T, U>::LUDecompose() const{
-    if(numRows != numCols) throw MatrixNotSquared();
+    if(!isSquare()) throw MatrixNotSquared();
     const int n = numRows;
     Matrix<T> upper(*this);
     Matrix<T> lower(n);
@@ -40,6 +40,38 @@ TripleDecomposition<T> Matrix<T, U>::LUDecompose() const{
         }
     }
     TripleDecomposition<T> res{lower, permutation, upper};
+    return res;
+}
+template<typename T>
+T dotProduct(const std::vector<T> &v, const std::vector<T> &u){
+    if(v.size() != u.size()) return 0;
+    T result = 0;
+    for(size_t i = 0; i < v.size(); i++)
+        result += v[i] * u[i];
+    return result;
+}
+
+template<typename T>
+T euclideanNorm(const std::vector<T> &v){
+    T sum = 0;
+    for(const auto &value: v)
+        sum += value * value;
+    return sqrt(sum);
+}
+
+template<typename T, typename U>
+DoubleDecomposition<T> Matrix<T, U>::QRDecompose() const{
+    Matrix<T> Q(numRows);
+    Matrix<T> R(*this);
+
+    for(size_t i = 0; i < numCols; i++){
+        std::cout<<"Q:\n";
+        Q.print();
+        std::cout<<"R:\n";
+        R.print();
+       
+    }
+    DoubleDecomposition<T> res{Q, R};
     return res;
 }
 template<typename T, typename U>
