@@ -260,7 +260,12 @@ void Matrix<T, U>::saveInFile(const std::string &fileName) const{
 
 template<typename T, typename U>
 T Matrix<T, U>::frobeniusNorm() const noexcept{
-    
+    T res = 0;
+    for(const auto &row: M){
+        for(const auto &value: row)
+            res += value * value;
+    }
+    return sqrt(res);
 }
 
 template<typename T, typename U>
@@ -269,13 +274,25 @@ T Matrix<T, U>::spectralNorm() const noexcept{
 }
 template<typename T, typename U>
 T Matrix<T, U>::L1Norm() const noexcept{
-
+    T res = 0;
+    for(const auto &row: M)
+        for(const auto &value: row)
+            res += abs(value);
+    return res;
 }
 template<typename T, typename U>
 T Matrix<T, U>::infinityNorm() const noexcept{
-
+    T max = 0;
+    for(const auto &row: M){
+        T sum = 0;
+        for(const auto &value: row)
+            sum += abs(value);
+        if(sum > max) max = sum;
+    }
+    return max;
 }
 template<typename T, typename U>
 T Matrix<T, U>::L2_1Norm() const noexcept{
+
 
 }
