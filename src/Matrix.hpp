@@ -76,6 +76,7 @@ public:
     Matrix<T>& transpose() noexcept;
     Matrix<T>& mergeVertically(const Matrix<T> &another);
     Matrix<T>& mergeHorizontally(const Matrix<T> &another);
+    Matrix<T>& power(int n);
 
     [[nodiscard]] bool isSquare() const noexcept;
     [[nodiscard]] bool isDiagonal() const noexcept;
@@ -102,6 +103,14 @@ public:
     int rank() const noexcept;
     std::vector<T> solveFor(const std::vector<T> &v) const;
     [[nodiscard]] Matrix<T> inverse() const;
+
+   void print(){
+     for(const auto &row: M){
+        for(const auto &value:row)
+            std::cout<<value<<" ";
+        std::cout<<'\n';
+    }
+   }
 };
 
 #include "MatrixLibrary.hpp"

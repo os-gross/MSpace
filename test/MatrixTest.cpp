@@ -213,6 +213,20 @@ TEST_F(MatrixTest, MatrixMerge){
     EXPECT_THROW(m5.mergeHorizontally(m6), MatrixSizeMismatchException);
 }
 
+TEST_F(MatrixTest, MatrixPower){
+    Matrix<double> m(v1);
+    m.power(3);
+    EXPECT_EQ(m[0][0], 468);
+    EXPECT_EQ(m[0][1], 576);
+    EXPECT_EQ(m[0][2], 684);
+    EXPECT_EQ(m[1][0], 1062);
+    EXPECT_EQ(m[1][1], 1305);
+    EXPECT_EQ(m[1][2], 1548);
+    EXPECT_EQ(m[2][0], 1656);
+    EXPECT_EQ(m[2][1], 2034);
+    EXPECT_EQ(m[2][2], 2412);
+    
+}
 TEST_F(MatrixTest, MatrixIsSquare){
     Matrix<double> m(5);
     Matrix<double> z(3, 2);

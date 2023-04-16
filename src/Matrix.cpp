@@ -147,6 +147,16 @@ Matrix<T>& Matrix<T, U>::mergeHorizontally(const Matrix<T> &another){
     return *this;
 }
 
+template<typename T, typename U>
+Matrix<T>& Matrix<T, U>::power(int n){
+    if(n < 0) throw MatrixNegativeValue();
+    Matrix<T> res(*this);
+    while(n - 1 > 0){
+        *this = *this * res;
+        n--;
+    }
+    return *this;
+}
 
 template<typename T, typename U>
 bool Matrix<T, U>::isSquare() const noexcept{
