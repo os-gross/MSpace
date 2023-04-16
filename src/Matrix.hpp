@@ -90,6 +90,12 @@ public:
 
     void saveInFile(const std::string &fileName) const;
 
+    T frobeniusNorm() const noexcept;
+    T spectralNorm() const noexcept;
+    T L1Norm() const noexcept;
+    T infinityNorm() const noexcept;
+    T L2_1Norm() const noexcept;
+
     TripleDecomposition<T> LUDecompose() const;
     T determinant() const noexcept;
     std::vector<T> solveFor(const std::vector<T> &v) const;

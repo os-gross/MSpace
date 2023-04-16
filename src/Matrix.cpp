@@ -257,3 +257,25 @@ void Matrix<T, U>::saveInFile(const std::string &fileName) const{
     }
     os.close();
 }
+
+template<typename T, typename U>
+T Matrix<T, U>::frobeniusNorm() const noexcept{
+    
+}
+
+template<typename T, typename U>
+T Matrix<T, U>::spectralNorm() const noexcept{
+
+}
+template<typename T, typename U>
+T Matrix<T, U>::L1Norm() const noexcept{
+
+}
+template<typename T, typename U>
+T Matrix<T, U>::infinityNorm() const noexcept{
+
+}
+template<typename T, typename U>
+T Matrix<T, U>::L2_1Norm() const noexcept{
+
+}
