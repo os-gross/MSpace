@@ -112,6 +112,21 @@ public:
             std::cout<<'\n';
         }
     }
+private:
+    T dotProduct(const std::vector<T> &v, const std::vector<T> &u) const{
+        if(v.size() != u.size()) return 0;
+        T result = 0;
+        for(size_t i = 0; i < v.size(); i++)
+            result += v[i] * u[i];
+        return result;
+    }
+
+    T euclideanNorm(const std::vector<T> &v) const{
+        T sum = 0;
+        for(const auto &value: v)
+            sum += value * value;
+        return sqrt(sum);
+    }
 };
 
 #include "MatrixLibrary.hpp"

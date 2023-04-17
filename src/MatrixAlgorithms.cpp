@@ -42,22 +42,6 @@ PLUDecomposition<T> Matrix<T, U>::LUDecompose() const{
     PLUDecomposition<T> res{permutation, lower, upper};
     return res;
 }
-template<typename T>
-T dotProduct(const std::vector<T> &v, const std::vector<T> &u){
-    if(v.size() != u.size()) return 0;
-    T result = 0;
-    for(size_t i = 0; i < v.size(); i++)
-        result += v[i] * u[i];
-    return result;
-}
-
-template<typename T>
-T euclideanNorm(const std::vector<T> &v){
-    T sum = 0;
-    for(const auto &value: v)
-        sum += value * value;
-    return sqrt(sum);
-}
 
 template<typename T, typename U>
 QRDecomposition<T> Matrix<T, U>::QRDecompose() const{

@@ -293,8 +293,8 @@ TEST_F(MatrixTest, MatrixSaveInFile){
 TEST_F(MatrixTest, MatrixNorms){
     Matrix<double> m(v1);
     EXPECT_NEAR(m.frobeniusNorm(),16.881943016, 1e-6 );
-    // EXPECT_NEAR(m.spectralNorm(),16.881943016, 1e-6 );
+    EXPECT_NEAR(m.spectralNorm(),16.11684397, 1e-6 );
     EXPECT_NEAR(m.L1Norm(),45, 1e-6);
     EXPECT_NEAR(m.infinityNorm(), 24, 1e-6);
-    // EXPECT_NEAR(m.L2_1Norm(),17, 1e-6);
+    EXPECT_NEAR(m.L2_1Norm(),28.992661326, 1e-6);
 }

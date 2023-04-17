@@ -280,7 +280,11 @@ T Matrix<T, U>::frobeniusNorm() const noexcept{
 
 template<typename T, typename U>
 T Matrix<T, U>::spectralNorm() const noexcept{
-
+    std::vector<T> v = eigen();
+    T max = v[0];
+    for(size_t i = 0; i < v.size(); i++)
+        if(v[i] > max) max = v[i];
+    return max;
 }
 template<typename T, typename U>
 T Matrix<T, U>::L1Norm() const noexcept{
@@ -303,6 +307,8 @@ T Matrix<T, U>::infinityNorm() const noexcept{
 }
 template<typename T, typename U>
 T Matrix<T, U>::L2_1Norm() const noexcept{
-
-
+    T sum = 0;
+    for(size_t i = 0; i < numCols; i++)
+        sum += euclideanNorm(getColumn(i));
+    return sum;
 }
