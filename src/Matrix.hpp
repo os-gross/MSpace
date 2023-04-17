@@ -10,9 +10,9 @@
 #include "MatrixExceptions.hpp"
 
 template<typename T>
-class DoubleDecomposition;
+class QRDecomposition;
 template<typename T>
-class TripleDecomposition;
+class PLUDecomposition;
 
 template <typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>, bool>>
 class Matrix {
@@ -91,26 +91,27 @@ public:
 
     void saveInFile(const std::string &fileName) const;
 
-    T frobeniusNorm() const noexcept;
-    T spectralNorm() const noexcept;
-    T L1Norm() const noexcept;
-    T infinityNorm() const noexcept;
-    T L2_1Norm() const noexcept;
+    [[nodiscard]] T frobeniusNorm() const noexcept;
+    [[nodiscard]] T spectralNorm() const noexcept;
+    [[nodiscard]] T L1Norm() const noexcept;
+    [[nodiscard]] T infinityNorm() const noexcept;
+    [[nodiscard]] T L2_1Norm() const noexcept;
 
-    TripleDecomposition<T> LUDecompose() const;
-    DoubleDecomposition<T> QRDecompose() const;
-    T determinant() const noexcept;
-    int rank() const noexcept;
-    std::vector<T> solveFor(const std::vector<T> &v) const;
+    [[nodiscard]] PLUDecomposition<T> LUDecompose() const;
+    [[nodiscard]] QRDecomposition<T> QRDecompose() const;
+    [[nodiscard]] T determinant() const noexcept;
+    [[nodiscard]] int rank() const noexcept;
+    [[nodiscard]] std::vector<T> solveFor(const std::vector<T> &v) const;
     [[nodiscard]] Matrix<T> inverse() const;
+    [[nodiscard]] std::vector<T> eigen() const;
 
-   void print(){
-     for(const auto &row: M){
-        for(const auto &value:row)
-            std::cout<<value<<" ";
-        std::cout<<'\n';
+    void print(){
+        for(const auto &row: M){
+            for(const auto &value:row)
+                std::cout<<value<<" ";
+            std::cout<<'\n';
+        }
     }
-   }
 };
 
 #include "MatrixLibrary.hpp"

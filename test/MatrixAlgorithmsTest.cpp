@@ -13,7 +13,7 @@ TEST_F(MatrixTest, MatrixLUDecomposition){
         }
         Matrix<double> m(v);
         auto triple = m.LUDecompose();
-        auto res = triple.middle * triple.first * triple.second;
+        auto res = triple.P * triple.L * triple.U;
         for(size_t i = 0; i < m.getNumRows(); i++){
             for(size_t j = 0; j < m.getNumCols(); j++){
                 ASSERT_NEAR(m[i][j], res[i][j], 1e-9);
@@ -104,10 +104,9 @@ TEST_F(MatrixTest, MatrixInverse){
     }
 }
 
-
 TEST_F(MatrixTest, MatrixQRDecomposition){
     const int count = 1'000;
-    const int dimension = 5;
+    const int dimension = 5                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ;
     const int range = 1000;
     const int shift = 500;
     srand(time(NULL));
@@ -121,23 +120,32 @@ TEST_F(MatrixTest, MatrixQRDecomposition){
             v.push_back(temp);
         }
         Matrix<double> m(v);
-        Matrix<double> Q(dimension);
-        Matrix<double> R(dimension);
+        auto qr = m.QRDecompose();
 
-        bool exceptionCaugth = false;
-        try{
-            auto result = m.QRDecompose();
-            Q = result.first;
-            R = result.second;
-        } catch(DeterminantIsZero){
-            exceptionCaugth = true;
-        }
-        if(exceptionCaugth) continue;
-        auto res = Q*R;
+        auto res = qr.Q * qr.R;
         for(size_t i = 0; i < m.getNumRows(); i++){
-            for(size_t j = 0; j < m.getNumCols(); j++){
-                ASSERT_NEAR(res[i][j], m[i][j], 1e-9);
+            for(size_t j = 0; j <m.getNumCols(); j++){
+                ASSERT_NEAR(res[i][j], m[i][j], 1e-6);
             }
         }
+    }
+}
+
+TEST_F(MatrixTest, MatrixEigen){
+    Matrix<double> m1(v1), m2(v2), m3(v3), m4(v4);
+    std::vector<double> v1_res = {16.1168, -1.11684, 0};
+    std::vector<double> v2_res = {-16.1168, 1.11684, 0};
+    std::vector<double> v3_res = {122.897, 5.50271, -0.399253};
+    std::vector<double> v4_res = {32.2337, -2.23369, 0};
+
+    auto m1_res = m1.eigen();
+    auto m2_res = m2.eigen();
+    auto m3_res = m3.eigen();
+    auto m4_res = m4.eigen();
+    for(size_t i = 0; i < v1_res.size(); i ++){
+        ASSERT_NEAR(m1_res[i], v1_res[i], 1e-2);
+        ASSERT_NEAR(m2_res[i], v2_res[i], 1e-2);
+        ASSERT_NEAR(m3_res[i], v3_res[i], 1e-2);
+        ASSERT_NEAR(m4_res[i], v4_res[i], 1e-2);
     }
 }

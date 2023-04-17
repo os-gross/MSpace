@@ -256,12 +256,12 @@ TEST_F(MatrixTest, MatrixIsZero){
 TEST_F(MatrixTest, MatrixIsTriangle){
     Matrix<float> m1(v1);
     auto res = m1.LUDecompose();
-    EXPECT_TRUE(res.first.isLowerTriangle());
-    EXPECT_FALSE(res.first.isUpperTriangle());
-    EXPECT_TRUE(res.first.isTriangle());
-    EXPECT_FALSE(res.second.isLowerTriangle());
-    EXPECT_TRUE(res.second.isUpperTriangle());
-    EXPECT_TRUE(res.second.isTriangle());
+    EXPECT_TRUE(res.L.isLowerTriangle());
+    EXPECT_FALSE(res.L.isUpperTriangle());
+    EXPECT_TRUE(res.L.isTriangle());
+    EXPECT_FALSE(res.U.isLowerTriangle());
+    EXPECT_TRUE(res.U.isUpperTriangle());
+    EXPECT_TRUE(res.U.isTriangle());
 }
 
 TEST_F(MatrixTest, MatrixIsSymmetric){

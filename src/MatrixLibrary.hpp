@@ -3,20 +3,20 @@
 #include "Matrix.hpp"
 
 template<typename T>
-class DoubleDecomposition{
+class QRDecomposition{
 public:
-    Matrix<T> first;
-    Matrix<T> second;
-    DoubleDecomposition(const Matrix<T> &m1, const Matrix<T> &m2):first{m1}, second{m2}{};
+    Matrix<T> Q;
+    Matrix<T> R;
+    QRDecomposition(const Matrix<T> &m1, const Matrix<T> &m2):Q{m1}, R{m2}{};
 };
 template<typename T>
-class TripleDecomposition{
+class PLUDecomposition{
 public:
-    Matrix<T> first;
-    Matrix<T> middle;
-    Matrix<T> second;
-    TripleDecomposition(const Matrix<T> &m1, const Matrix<T> &m2, const Matrix<T> &m3):
-    first{m1},middle{m2}, second{m3}{};
+    Matrix<T> P;
+    Matrix<T> L;
+    Matrix<T> U;
+    PLUDecomposition(const Matrix<T> &m1, const Matrix<T> &m2, const Matrix<T> &m3):
+    P{m1},L{m2},U{m3}{};
 };
 
 #endif

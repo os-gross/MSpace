@@ -1,7 +1,7 @@
 #include "Matrix.hpp"
 
 template<typename T, typename U>
-TripleDecomposition<T> Matrix<T, U>::LUDecompose() const{
+PLUDecomposition<T> Matrix<T, U>::LUDecompose() const{
     if(!isSquare()) throw MatrixNotSquared();
     const int n = numRows;
     Matrix<T> upper(*this);
@@ -39,7 +39,7 @@ TripleDecomposition<T> Matrix<T, U>::LUDecompose() const{
             }
         }
     }
-    TripleDecomposition<T> res{lower, permutation, upper};
+    PLUDecomposition<T> res{permutation, lower, upper};
     return res;
 }
 template<typename T>
@@ -60,26 +60,32 @@ T euclideanNorm(const std::vector<T> &v){
 }
 
 template<typename T, typename U>
-DoubleDecomposition<T> Matrix<T, U>::QRDecompose() const{
+QRDecomposition<T> Matrix<T, U>::QRDecompose() const{
     Matrix<T> Q(numRows);
     Matrix<T> R(numRows, numCols);
-    for(size_t i = 0; i < numCols; i++){;
+    for(size_t i = 0; i < getNumCols(); i++){
        std::vector<T> u_i = getColumn(i);
-       for(size_t j = 0; j < i; j++){
+       for(size_t j = 0; j < i && j < R.getNumRows(); j++){
             std::vector<T> e_i = Q.getColumn(j);
             T product = dotProduct(u_i, e_i);
-            for(size_t k = 0; k < numRows; k++)
-                u_i[k] -= product * e_i[k];
-            R(j, i) = product;
+        for(size_t k = 0; k < u_i.size(); k++)
+            u_i[k] -= product * e_i[k];
+        R(j, i) = product;
        }
+        T norm = euclideanNorm(u_i);
 
-       T norm = euclideanNorm(u_i);
-       if(norm == 0) throw MatrixDivisionZero();
-        for(size_t j = 0; j < numRows; j++)
-            Q(j, i) = u_i[j] / norm;
-        R(i, i) = dotProduct(Q.getColumn(i), u_i);
+       if(norm == 0) {
+            Q.addColumn(i, 0);
+            R.addColumn(i, 0);
+            continue;
+       }
+        if(i < Q.getNumCols()){
+            for(size_t j = 0; j < Q.getNumRows(); j++)
+                Q(j, i) = u_i[j] / norm;
+        }
+        if(i < R.getNumRows() && i < R.getNumCols()) R(i, i) = dotProduct(Q.getColumn(i), u_i);
     }
-    DoubleDecomposition<T> res{Q, R};
+    QRDecomposition<T> res{Q, R};
     return res;
 }
 template<typename T, typename U>
@@ -90,15 +96,15 @@ T Matrix<T, U>::determinant() const noexcept{
             sum *= M[i][i];
        return sum;
     }
-    TripleDecomposition<T> triple = this->LUDecompose();
-    if(*this == triple.middle){ // when in P=A in A=LPU we get infinite reccursion. 
+    PLUDecomposition<T> triple = this->LUDecompose();
+    if(*this == triple.P){ // when in P=A in A=LPU we get infinite reccursion. 
         std::vector<T> diagonal = getDiagonal();
         T sum = 0;
         for(size_t i = 0; i < diagonal.size(); i++) sum += diagonal[i];
         const int numOfSwaps = diagonal.size() - sum - 1;
         return pow(-1, numOfSwaps);
     }
-    return triple.first.determinant() * triple.second.determinant();
+    return triple.L.determinant() * triple.U.determinant();
 }
 
 template<typename T, typename U>
@@ -134,9 +140,9 @@ int Matrix<T, U>::rank() const noexcept{
 template<typename T, typename U>
 std::vector<T> Matrix<T, U>::solveFor(const std::vector<T> &v) const {
     if(numRows != numCols) throw MatrixNotSquared();
-    TripleDecomposition<T> triple = LUDecompose();
-    Matrix<T> lower = triple.first;
-    Matrix<T> upper = triple.second;
+    PLUDecomposition<T> triple = LUDecompose();
+    Matrix<T> lower = triple.L;
+    Matrix<T> upper = triple.U;
     const int n = lower.getNumRows();
     std::vector<T> y(n);
     std::vector<T> x(n);
@@ -163,9 +169,9 @@ std::vector<T> Matrix<T, U>::solveFor(const std::vector<T> &v) const {
 template<typename T, typename U>
 Matrix<T> Matrix<T, U>::inverse() const{
     if(numRows != numCols) throw MatrixNotSquared();
-    TripleDecomposition<T> triple = LUDecompose();
-    Matrix<T> lower = triple.first;
-    Matrix<T> upper = triple.second;
+    PLUDecomposition<T> triple = LUDecompose();
+    Matrix<T> lower = triple.L;
+    Matrix<T> upper = triple.U;
     const int n = lower.getNumRows();
     Matrix<T> res(n);
     int count = 0;
@@ -194,5 +200,19 @@ Matrix<T> Matrix<T, U>::inverse() const{
         res.setColumn(count, x);
         count++;
     }
-    return res * triple.middle;
+    return res;
+}
+
+template<typename T, typename U>
+std::vector<T> Matrix<T, U>::eigen() const{
+    Matrix<T> A(*this);
+    int count = 0;
+    while(count != 100){
+        auto q = A.QRDecompose().Q;
+        auto q_t(q);
+        Matrix<T> A_K = q_t.transpose() * A * q;
+        A = A_K;
+        count++;
+    }
+    return A.getDiagonal();
 }
