@@ -195,6 +195,8 @@ std::vector<T> Matrix<T, U>::eigen() const{
         auto q = A.QRDecompose().Q;
         auto q_t(q);
         Matrix<T> A_K = q_t.transpose() * A * q;
+        auto res = A_K - A;
+        if (euclideanNorm((A_K - A).getDiagonal()) < tolerance) break;
         A = A_K;
         count++;
     }
